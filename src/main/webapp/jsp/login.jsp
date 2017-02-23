@@ -24,7 +24,7 @@
                     <i class="fa fa-key"></i>
                 </div>
             </div>
-            <form role="form" class="login-form">
+            <form role="form" class="login-form" method="post" action="tologin">
                 <div class="form-group">
                     <label class="sr-only" for="username">Username</label>
                     <input type="text" name="username" placeholder="用户名" class="form-control" id="username">
