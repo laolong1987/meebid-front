@@ -19,7 +19,7 @@
   </bean>
 
   <!-- 静态资源(js/image)的访问 -->
-  <mvc:resources mapping="/**" location="/static/" />
+  <mvc:resources mapping="/static/**" location="/static/" />
 
 
 </beans>

@@ -43,7 +43,6 @@ public class LoginController {
     public String showlogin(HttpServletRequest request,
                             HttpServletResponse response) {
 
-        commonService.test();
         return "/login";
     }
 
@@ -73,11 +72,12 @@ public class LoginController {
                     UserInfo.class);
         } catch (ErrorException e){
             request.setAttribute("errorinfo",e.getErrorBean().getMessage());
+            return "/login";
         }
-
         if (responseEntity.getStatusCode() != HttpStatus.OK) {
-            return "redirect:/login";
+            return "redirect:/login/";
         } else {
+            request.getSession().setAttribute("username",responseEntity.getBody());
             return "redirect:/auctionhouse/index";
         }
     }

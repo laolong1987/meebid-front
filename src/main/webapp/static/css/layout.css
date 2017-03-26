@@ -1,0 +1,66 @@
+.leftMenu{
+    /*background-position: 0 -300px;*/
+    display: inline-block;
+    min-height: calc(100vh - 0px);
+    min-width: 50px;
+    padding: 0px 0;
+    position: fixed;
+    text-transform: uppercase;
+    z-index: 99;
+    background-color: #ededed;
+}
+
+.main-nav {
+    list-style: none;
+    padding: 0;
+    position: relative;
+    text-align: center;
+}
+.auction-main{
+    margin-top: 50px;
+    margin-left: 70px;
+}
+
+.menu-container ul li{
+    width: 45px;
+    height: 55px;
+}
+
+.menu-container ul li a{
+    margin-top: 20px;
+}
+
+.auction-top{
+    padding-top: 20px;
+}
+
+.auction-top button{
+    margin-top: 25px;
+}
+
+.auction-top-logo {
+    padding-top: 5px;
+}
+
+.auction-box{
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.auction-box img{
+    width: 140px;
+    height: 100px;
+}
+
+.auction-box li{
+    margin-bottom: 5px;
+}
+
+.auction-action-btn{
+    width: 100%;
+}
+

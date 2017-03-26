@@ -41,4 +41,12 @@
     </div>
 </div>
 </body>
+<script type="text/javascript">
+    $(function(){
+        var error='${errorinfo}'
+        if(''!=error){
+            alert(error);
+        }
+    })
+</script>
 </html>

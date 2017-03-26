@@ -65,8 +65,14 @@ public class CommonDao {
         return stringRedisTemplate.opsForValue().get(k);
     }
 
-    public Object getObject(String k) {
-        return stringRedisTemplate.opsForValue().get(k);
+    public Object getObject(String k ,Object entity) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(stringRedisTemplate.opsForValue().get(k), (Class) entity);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  null;
     }
 
 
