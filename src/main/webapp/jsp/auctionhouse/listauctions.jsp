@@ -26,7 +26,7 @@
             <h2>AUCTIONS</h2>
         </div>
         <div class="col-xs-2">
-            <button type="button" class="btn btn-primary">
+            <button type="button" class="btn btn-primary" onclick="tocreateauctions()">
                 CREATE NEW AUCTION
             </button>
         </div>
@@ -42,14 +42,20 @@
     </div>
 
     <div style="margin-top: 30px">
+
+        <c:forEach items="${auctionses}" var="a">
         <div class="row auction-box">
             <div class="col-xs-2">
-                <img src="noimg.png">
+                <img src="${ctx}/static/images/noimg.png">
             </div>
             <div class="col-xs-8">
                 <ul class="list-unstyled">
-                    <li><B>11111</B></li>
-                    <li>2222</li>
+                    <li><B>${a.name}</B></li>
+
+                    <li>
+                        <fmt:setLocale value="en_US" scope="session"/>
+                        <fmt:formatDate value="${a.start_time}"  type="both"  pattern="d MMM yyyy, h:mm:s a"/>
+                    </li>
                     <li> <button type="button" class="btn btn-default">33333</button></li>
                 </ul>
             </div>
@@ -62,30 +68,15 @@
                 </ul>
             </div>
         </div>
-
-        <div class="row auction-box">
-            <div class="col-xs-2">
-                <img src="noimg.png">
-            </div>
-            <div class="col-xs-8">
-                <ul class="list-unstyled">
-                    <li><B>11111</B></li>
-                    <li>2222</li>
-                    <li> <button type="button" class="btn btn-default">33333</button></li>
-                </ul>
-            </div>
-            <div class="col-xs-2">
-                <ul class="list-unstyled">
-                    <li><button type="button" class="btn btn-primary auction-action-btn">33333</button></li>
-                    <li><button type="button" class="btn btn-primary auction-action-btn">33333</button></li>
-                    <li>111111</li>
-                </ul>
-            </div>
-        </div>
+        </c:forEach>
     </div>
 </div>
 
 
-
+<script>
+    function tocreateauctions(){
+        window.location.href="createauction";
+    }
+</script>
 </body>
 </html>

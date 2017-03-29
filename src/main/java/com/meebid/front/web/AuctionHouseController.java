@@ -1,5 +1,6 @@
 package com.meebid.front.web;
 
+import com.meebid.front.bean.Auctions;
 import com.meebid.front.bean.UserInfo;
 import com.meebid.front.exception.ErrorException;
 import com.meebid.front.utils.MD5Util;
@@ -109,14 +110,16 @@ public class AuctionHouseController {
     @RequestMapping(value = "/listauctions")
     public String listauction(HttpServletRequest request,
                                     HttpServletResponse response) {
+        String page=StringUtil.safeToString(request.getParameter("page"),"1");
+        String pageSize=StringUtil.safeToString(request.getParameter("pageSize"),"10");
+        String orderby=StringUtil.safeToString(request.getParameter("orderby"),"");
+
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
-        form.set("sellerId", "0");
-        form.set("pageSize", "10");
-        form.set("page", "1");
-
-
-          restOps.postForObject("http://192.169.202.87:8080/auction/auction/seller-auction-list",form,);
-
+        form.set("sellerId", StringUtil.safeToString(request.getSession().getAttribute("userid"),"0"));
+        form.set("pageSize", pageSize);
+        form.set("page", page);
+        Auctions[] auctionses= restOps.postForObject("http://192.169.202.87:8080/auction/auction/seller-auction-list",form,Auctions[].class);
+        request.setAttribute("auctionses",auctionses);
         return "/auctionhouse/listauctions";
     }
     /**
