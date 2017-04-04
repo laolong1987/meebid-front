@@ -64,3 +64,11 @@
     width: 100%;
 }
 
+.tablecrude{
+    font-weight:bold;
+}
+
+.form-span{
+    padding-top:7px;
+    margin-bottom:0;
+}

@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class SettingUtil {
-	private static String path = "/config/setting/setting.properties";
+	private static String path = "/setting.properties";
 
 
 	public static String getSetting(String name) {
@@ -26,7 +26,7 @@ public class SettingUtil {
 	
 	public static void main(String[] args) {
 		SettingUtil s=new SettingUtil();
-		System.out.println(s.getSetting("appsecret"));
+		System.out.println(s.getSetting("RESTURL"));
 		 
 	}
 }

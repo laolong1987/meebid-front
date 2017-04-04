@@ -13,12 +13,12 @@
         <div class="menu-container">
             <ul class="main-nav">
                 <li>
-                    <button type="button" class="btn btn-link btn-lg">
+                    <button type="button" class="btn btn-link btn-lg" onclick="tomenu('listmessage')">
                         <i class="fa fa-envelope"></i>
                     </button>
                 </li>
                 <li>
-                    <button type="button" class="btn btn-link btn-lg">
+                    <button type="button" class="btn btn-link btn-lg" onclick="tomenu('listauctions')">
                         <span class="fa fa-gavel"></span>
                     </button>
                 </li>
@@ -42,3 +42,8 @@
     </nav>
 </div>
 <!--left menu end-->
+<script>
+    function tomenu(menuname){
+        window.location.href=menuname;
+    }
+</script>

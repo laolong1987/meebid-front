@@ -1,16 +1,21 @@
 package com.meebid.front.web;
 
 import com.meebid.front.bean.Auctions;
+import com.meebid.front.bean.Message;
 import com.meebid.front.bean.UserInfo;
 import com.meebid.front.exception.ErrorException;
 import com.meebid.front.utils.MD5Util;
+import com.meebid.front.utils.SettingUtil;
 import com.meebid.front.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestOperations;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +28,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("/auctionhouse")
 public class AuctionHouseController {
+
+
+    private  String RESTURL= SettingUtil.getSetting("RESTURL");
 
     @Autowired
     private RestOperations restOps;
@@ -86,7 +94,7 @@ public class AuctionHouseController {
         ResponseEntity<String> responseEntity = null;
         try {
             responseEntity = restOps.exchange(
-                    "http://192.168.0.119:8080/auction/create",
+                    RESTURL+"auction/create",
                     HttpMethod.POST,
                     new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
                     String.class);
@@ -118,7 +126,7 @@ public class AuctionHouseController {
         form.set("sellerId", StringUtil.safeToString(request.getSession().getAttribute("userid"),"0"));
         form.set("pageSize", pageSize);
         form.set("page", page);
-        Auctions[] auctionses= restOps.postForObject("http://192.169.202.87:8080/auction/auction/seller-auction-list",form,Auctions[].class);
+        Auctions[] auctionses= restOps.postForObject(RESTURL+"auction/seller-auction-list",form,Auctions[].class);
         request.setAttribute("auctionses",auctionses);
         return "/auctionhouse/listauctions";
     }
@@ -132,5 +140,79 @@ public class AuctionHouseController {
     public String auctioninfo(HttpServletRequest request,
                               HttpServletResponse response) {
         return "/auctionhouse/auctioninfo";
+    }
+
+    /**
+     * 拍卖会列表页面
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/listmessage")
+    public String listmessage(HttpServletRequest request,
+                              HttpServletResponse response) {
+        String page=StringUtil.safeToString(request.getParameter("page"),"1");
+        String pageSize=StringUtil.safeToString(request.getParameter("pageSize"),"10");
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+        form.set("uid", "15800531996");
+        form.set("pageSize", pageSize);
+        form.set("page", page);
+        Message[] listmessage= restOps.postForObject(RESTURL+"message/list",form,Message[].class);
+        request.setAttribute("listmessage",listmessage);
+
+        return "/auctionhouse/listmessage";
+    }
+
+    @RequestMapping(value = "/addmessage", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    public Object addmessage(HttpServletRequest request, HttpServletResponse response) {
+        String subject=StringUtil.safeToString(request.getParameter("subject"),"");
+        String content=StringUtil.safeToString(request.getParameter("content"),"");
+        String recipients=StringUtil.safeToString(request.getParameter("recipients"),"");
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+        form.set("subject", subject);
+        form.set("content", content);
+        form.set("recipients", recipients);
+        form.set("correspondent", "15800531997");
+        form.set("attachment", "");
+
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = restOps.exchange(
+                    RESTURL+"message/create",
+                    HttpMethod.POST,
+                    new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
+                    String.class);
+        } catch (ErrorException e){
+            request.setAttribute("errorinfo",e.getErrorBean().getMessage());
+            return "/auctionhouse/listmessage";
+        }
+        return "redirect:/auctionhouse/listmessage";
+    }
+
+
+    @RequestMapping(value = "/updateMessageState",method = RequestMethod.POST)
+    @ResponseBody
+    public Object updateMessageState(HttpServletRequest request, HttpServletResponse response){
+        String messageId=StringUtil.safeToString(request.getParameter("messageId"),"");
+        String state = StringUtil.safeToString(request.getParameter("state"),"1");
+
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+        form.set("messageId", messageId);
+        form.set("state", state);
+
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = restOps.exchange(
+                    RESTURL+"message/updateMessageState",
+                    HttpMethod.POST,
+                    new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
+                    String.class);
+        } catch (ErrorException e){
+            return e.getErrorBean().getMessage();
+        }
+        return "";
     }
 }
