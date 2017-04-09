@@ -34,6 +34,10 @@
         </div>
     </div>
 
+    <form action="listmessage" method="post" id="listform" name="listform">
+        <input type="hidden" value="" name="pageSize" id="pageSize">
+        <input type="hidden" value="" name="page" id="page">
+    </form>
     <table class="table table-hover" style="margin-top: 20px" id="messagetable">
         <thead>
         <tr>
@@ -45,7 +49,12 @@
         <tbody>
         <fmt:setLocale value="en_US" scope="session"/>
         <c:forEach var="m" items="${listmessage}" >
-            <tr class="tablecrude">
+            <c:if test="${m.state eq 1}">
+                <tr class="tablecrude" id="${m.id}">
+            </c:if>
+            <c:if test="${m.state eq 0}">
+                <tr class="">
+            </c:if>
                 <td>${m.subject}</td>
                 <td>${m.correspondentName}</td>
                 <td><fmt:formatDate value="${m.createTime}"  type="both"  pattern="d MMM yyyy, h:mm:s a"/></td>
@@ -53,8 +62,6 @@
                 <td class="hidden">${m.id}</td>
             </tr>
         </c:forEach>
-
-
         </tbody>
     </table>
     <div class="text-center">
@@ -174,6 +181,7 @@
 
     function mark(){
         updateMessageState($("#id").val(),'0');
+        $('#detail').modal('hide');
     }
 
     function updateMessageState(id,s){
@@ -184,17 +192,13 @@
             dataType : "text",
             success : function(result) {
                 if(0==s){
-                    $(this).addClass("tablecrude");
+                    $("#"+id).addClass("tablecrude");
                 }else{
-                    $(this).removeClass("tablecrude");
+                    $("#"+id).removeClass("tablecrude");
                 }
             }
         });
     }
-
-
-
-
 </script>
 </body>
 </html>

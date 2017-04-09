@@ -2,6 +2,7 @@ package com.meebid.front.web;
 
 import com.meebid.front.bean.Auctions;
 import com.meebid.front.bean.Message;
+import com.meebid.front.bean.SearchTemplate;
 import com.meebid.front.bean.UserInfo;
 import com.meebid.front.exception.ErrorException;
 import com.meebid.front.utils.MD5Util;
@@ -154,12 +155,14 @@ public class AuctionHouseController {
         String page=StringUtil.safeToString(request.getParameter("page"),"1");
         String pageSize=StringUtil.safeToString(request.getParameter("pageSize"),"10");
 
+
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
         form.set("uid", "15800531996");
         form.set("pageSize", pageSize);
         form.set("page", page);
-        Message[] listmessage= restOps.postForObject(RESTURL+"message/list",form,Message[].class);
-        request.setAttribute("listmessage",listmessage);
+//        Message[] listmessage= restOps.postForObject(RESTURL+"message/list",form,Message[].class);
+        SearchTemplate<Message> searchTemplate= restOps.postForObject(RESTURL+"message/list",form,SearchTemplate.class);
+        request.setAttribute("listmessage",searchTemplate.getDateList());
 
         return "/auctionhouse/listmessage";
     }
