@@ -1,13 +1,13 @@
 package com.meebid.front.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meebid.front.bean.Auctions;
 import com.meebid.front.bean.Message;
 import com.meebid.front.bean.SearchTemplate;
 import com.meebid.front.bean.UserInfo;
 import com.meebid.front.exception.ErrorException;
-import com.meebid.front.utils.MD5Util;
-import com.meebid.front.utils.SettingUtil;
-import com.meebid.front.utils.StringUtil;
+import com.meebid.front.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
@@ -21,6 +21,7 @@ import org.springframework.web.client.RestOperations;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -152,18 +153,19 @@ public class AuctionHouseController {
     @RequestMapping(value = "/listmessage")
     public String listmessage(HttpServletRequest request,
                               HttpServletResponse response) {
-        String page=StringUtil.safeToString(request.getParameter("page"),"1");
-        String pageSize=StringUtil.safeToString(request.getParameter("pageSize"),"10");
+        int page= ConvertUtil.safeToInteger(request.getParameter("page"),1);
+        int pageSize=ConvertUtil.safeToInteger(request.getParameter("pageSize"),10);
 
 
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
         form.set("uid", "15800531996");
-        form.set("pageSize", pageSize);
-        form.set("page", page);
+        form.set("pageSize", String.valueOf(pageSize));
+        form.set("page", String.valueOf(page));
 //        Message[] listmessage= restOps.postForObject(RESTURL+"message/list",form,Message[].class);
         SearchTemplate<Message> searchTemplate= restOps.postForObject(RESTURL+"message/list",form,SearchTemplate.class);
+        
         request.setAttribute("listmessage",searchTemplate.getDateList());
-
+        request.setAttribute("page", PageUtil.getPage(page,pageSize,searchTemplate.getTotalCount()));
         return "/auctionhouse/listmessage";
     }
 

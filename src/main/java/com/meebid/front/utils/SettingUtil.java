@@ -25,8 +25,7 @@ public class SettingUtil {
 	}
 	
 	public static void main(String[] args) {
-		SettingUtil s=new SettingUtil();
-		System.out.println(s.getSetting("RESTURL"));
-		 
+
+		System.out.printf(String.valueOf(23/10));
 	}
 }
