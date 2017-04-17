@@ -9,6 +9,7 @@ import com.meebid.front.utils.MD5Util;
 import com.meebid.front.utils.SettingUtil;
 import com.meebid.front.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
@@ -161,8 +162,16 @@ public class AuctionHouseController {
         form.set("pageSize", pageSize);
         form.set("page", page);
 //        Message[] listmessage= restOps.postForObject(RESTURL+"message/list",form,Message[].class);
-        SearchTemplate<Message> searchTemplate= restOps.postForObject(RESTURL+"message/list",form,SearchTemplate.class);
-        request.setAttribute("listmessage",searchTemplate.getDateList());
+//        SearchTemplate<Message> searchTemplate= restOps.postForObject(RESTURL+"message/list",form,SearchTemplate.class);
+        ResponseEntity<SearchTemplate<Message>> res = restOps.exchange(
+                RESTURL+"message/list",
+                HttpMethod.POST,
+                new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
+                new ParameterizedTypeReference<SearchTemplate<Message>>() {});
+        for (Message message:res.getBody().getDateList()){
+            System.out.println(message.getSubject());
+        }
+        request.setAttribute("listmessage",res.getBody().getDateList());
 
         return "/auctionhouse/listmessage";
     }
