@@ -48,6 +48,7 @@
         </thead>
         <tbody>
         <fmt:setLocale value="en_US" scope="session"/>
+        <fmt:formatDate value="${date}"  type="BOTH"  pattern="d MMM yyyy, h:mm:s a"/>
         <c:forEach var="m" items="${listmessage}" >
             <c:if test="${m.state eq 1}">
                 <tr class="tablecrude" id="${m.id}">
@@ -57,7 +58,8 @@
             </c:if>
                 <td>${m.subject}</td>
                 <td>${m.correspondentName}</td>
-                <td><fmt:formatDate value="${m.createTime}"  type="both"  pattern="d MMM yyyy, h:mm:s a"/></td>
+                <%--<td><fmt:formatDate value="${m.createTime}"  type="both"  pattern="d MMM yyyy, h:mm:s a"/></td>--%>
+                <td>${m.createTime}</td>
                 <td class="hidden">${m.content}</td>
                 <td class="hidden">${m.id}</td>
             </tr>
@@ -66,13 +68,21 @@
     </table>
     <div class="text-center">
         <ul class="pagination">
-            <li><a href="#">&laquo;</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li class="disabled"><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&raquo;</a></li>
+            <%--<li><a href="#">&laquo;</a></li>--%>
+            <%--<li class="active"><a href="#">1</a></li>--%>
+            <%--<li><a href="#">3</a></li>--%>
+            <%--<li><a href="#">4</a></li>--%>
+            <%--<li><a href="#">5</a></li>--%>
+            <%--<li><a href="#">&raquo;</a></li>--%>
+            <c:if test="${page.pagetotal > 1}">
+                <c:forEach begin="1" end="${page.pagetotal}" var="i">
+                    <li
+                    <c:if test="${i eq page.page}">
+                        class="active"
+                    </c:if>
+                    ><a href="#">${i}</a></li>
+                </c:forEach>
+            </c:if>
         </ul>
     </div>
 
