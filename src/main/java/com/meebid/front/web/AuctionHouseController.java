@@ -6,6 +6,7 @@ import com.meebid.front.bean.SearchTemplate;
 import com.meebid.front.bean.UserInfo;
 import com.meebid.front.exception.ErrorException;
 import com.meebid.front.utils.MD5Util;
+import com.meebid.front.utils.PageUtil;
 import com.meebid.front.utils.SettingUtil;
 import com.meebid.front.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,18 +162,13 @@ public class AuctionHouseController {
         form.set("uid", "15800531996");
         form.set("pageSize", pageSize);
         form.set("page", page);
-//        Message[] listmessage= restOps.postForObject(RESTURL+"message/list",form,Message[].class);
-//        SearchTemplate<Message> searchTemplate= restOps.postForObject(RESTURL+"message/list",form,SearchTemplate.class);
         ResponseEntity<SearchTemplate<Message>> res = restOps.exchange(
                 RESTURL+"message/list",
                 HttpMethod.POST,
                 new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
                 new ParameterizedTypeReference<SearchTemplate<Message>>() {});
-        for (Message message:res.getBody().getDateList()){
-            System.out.println(message.getSubject());
-        }
         request.setAttribute("listmessage",res.getBody().getDateList());
-
+        request.setAttribute("page", PageUtil.getPage(Integer.valueOf(page),Integer.parseInt(pageSize),res.getBody().getTotalCount()));
         return "/auctionhouse/listmessage";
     }
 

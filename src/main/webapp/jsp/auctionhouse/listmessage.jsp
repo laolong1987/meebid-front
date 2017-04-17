@@ -68,19 +68,13 @@
     </table>
     <div class="text-center">
         <ul class="pagination">
-            <%--<li><a href="#">&laquo;</a></li>--%>
-            <%--<li class="active"><a href="#">1</a></li>--%>
-            <%--<li><a href="#">3</a></li>--%>
-            <%--<li><a href="#">4</a></li>--%>
-            <%--<li><a href="#">5</a></li>--%>
-            <%--<li><a href="#">&raquo;</a></li>--%>
             <c:if test="${page.pagetotal > 1}">
                 <c:forEach begin="1" end="${page.pagetotal}" var="i">
                     <li
                     <c:if test="${i eq page.page}">
                         class="active"
                     </c:if>
-                    ><a href="#">${i}</a></li>
+                    ><a href="listmessage?page=${i}">${i}</a></li>
                 </c:forEach>
             </c:if>
         </ul>
