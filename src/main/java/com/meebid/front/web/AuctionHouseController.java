@@ -35,6 +35,8 @@ public class AuctionHouseController {
 
     private  String RESTURL= SettingUtil.getSetting("RESTURL");
 
+    private String uid="15800531996";
+
     @Autowired
     private RestOperations restOps;
 
@@ -159,7 +161,7 @@ public class AuctionHouseController {
 
 
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
-        form.set("uid", "15800531996");
+        form.set("uid", uid);
         form.set("pageSize", pageSize);
         form.set("page", page);
         ResponseEntity<SearchTemplate<Message>> res = restOps.exchange(
@@ -215,6 +217,26 @@ public class AuctionHouseController {
         try {
             responseEntity = restOps.exchange(
                     RESTURL+"message/updateMessageState",
+                    HttpMethod.POST,
+                    new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
+                    String.class);
+        } catch (ErrorException e){
+            return e.getErrorBean().getMessage();
+        }
+        return "";
+    }
+
+    @RequestMapping(value = "/updateMessageStateAll",method = RequestMethod.POST)
+    @ResponseBody
+    public Object updateMessageStateAll(HttpServletRequest request, HttpServletResponse response){
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+        form.set("uid", uid);
+
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = restOps.exchange(
+                    RESTURL+"message/updateAllMessageToRead",
                     HttpMethod.POST,
                     new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
                     String.class);

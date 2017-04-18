@@ -72,3 +72,17 @@
     padding-top:7px;
     margin-bottom:0;
 }
+
+/* 分页css*/
+.pagejump{
+    margin-left: 10px;
+}
+.pagejumptext{
+    height: 34px;
+    width: 50px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    text-align: center;
+}

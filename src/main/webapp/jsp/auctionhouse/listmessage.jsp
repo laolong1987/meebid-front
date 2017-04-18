@@ -28,7 +28,7 @@
             <button type="button" class="btn btn-primary" onclick="showaddwindows()">
                 WRITE NEW MESSAGE
             </button>
-            <button type="button" class="btn btn-primary">
+            <button type="button" class="btn btn-primary" onclick="updateMessageStateall()">
                 MARK ALL READ
             </button>
         </div>
@@ -50,10 +50,10 @@
         <fmt:setLocale value="en_US" scope="session"/>
         <fmt:formatDate value="${date}"  type="BOTH"  pattern="d MMM yyyy, h:mm:s a"/>
         <c:forEach var="m" items="${listmessage}" >
-            <c:if test="${m.state eq 1}">
+            <c:if test="${m.state eq 0}">
                 <tr class="tablecrude" id="${m.id}">
             </c:if>
-            <c:if test="${m.state eq 0}">
+            <c:if test="${m.state eq 1}">
                 <tr class="">
             </c:if>
                 <td>${m.subject}</td>
@@ -62,24 +62,32 @@
                 <td>${m.createTime}</td>
                 <td class="hidden">${m.content}</td>
                 <td class="hidden">${m.id}</td>
+                <td class="hidden">${m.correspondent}</td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+    <%-- 分页 开始--%>
     <div class="text-center">
         <ul class="pagination">
-            <c:if test="${page.pagetotal > 1}">
-                <c:forEach begin="1" end="${page.pagetotal}" var="i">
-                    <li
+                <c:if test="${page.page > 10}">
+                    <li><a href="listmessage?page=${page.page-10}">&laquo;</a></li>
+                </c:if>
+                <c:forEach begin="${page.beginpage}" end="${page.endpage}" var="i">
+                        <li
                     <c:if test="${i eq page.page}">
                         class="active"
                     </c:if>
                     ><a href="listmessage?page=${i}">${i}</a></li>
                 </c:forEach>
-            </c:if>
+                <c:if test="${page.pagetotal-page.page >10}">
+                <li><a href="listmessage?page=${page.page+10}">&raquo;</a></li>
+                </c:if>
+            <li><a href="javascript:;" class="pagejump" onclick="topage('listmessage')" style="margin-left: 10px;">JUMP</a></li>
+            <li><input type="text" class="pagejumptext" id="jumppage" name="jumppage" placeholder="1-${page.pagetotal}" onkeyup="keyUp(this)"></li>
         </ul>
     </div>
-
+    <%-- 分页 结束--%>
 </div>
 
 <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -91,10 +99,11 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form" id="addform" name="addform" method="post" action="addmessage">
+                    <input type="hidden" id="recipients" name="recipients" >
                     <div class="form-group">
                         <label class="col-sm-2 control-label">FROM</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="" id="recipients" name="recipients">
+                            <input type="text" class="form-control" placeholder="" readonly="readonly" id="recipientsname" name="recipientsname">
                         </div>
                     </div>
                     <div class="form-group">
@@ -151,7 +160,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">REPLY</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="reply()">REPLY</button>
                 <button type="button" class="btn btn-default" onclick="mark()">MARK AS UNREAD</button>
             </div>
         </div><!-- /.modal-content -->
@@ -173,6 +182,7 @@
         var date=$(this).find("td").eq(2).html();
         var content=$(this).find("td").eq(3).html();
         var id=$(this).find("td").eq(4).html();
+        var correspondent=$(this).find("td").eq(5).html();
 
         updateMessageState(id,'1');
 
@@ -181,12 +191,20 @@
         $("#sendtext").text(content);
         $("#id").val(id);
         $('#detail').modal('show');
+
+        $("#recipients").val();
+        $("#recipientsname").val(correspondentName);
+        $("#recipients").val(correspondent);
+
+
     })
 
     function mark(){
         updateMessageState($("#id").val(),'0');
         $('#detail').modal('hide');
     }
+
+
 
     function updateMessageState(id,s){
         $.ajax({
@@ -202,6 +220,25 @@
                 }
             }
         });
+    }
+
+    function updateMessageStateall(){
+        $.ajax({
+            type : "POST",
+            url : "updateMessageStateAll",
+            data : {uid:'uid'},
+            dataType : "text",
+            success : function(result) {
+                $("tr").each(function(index){
+                    $(this).removeClass("tablecrude");
+                });
+            }
+        });
+    }
+
+    function reply(){
+        $('#detail').modal('hide');
+        $('#add').modal('show');
     }
 </script>
 </body>
