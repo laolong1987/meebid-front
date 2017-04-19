@@ -34,7 +34,7 @@
 
     <div style="margin-top: 30px">
         <div class="btn-group">
-            <button type="button" class="btn btn-default">按钮 1</button>
+            <button type="button" class="btn btn-default">DRAFT</button>
             <button type="button" class="btn btn-default">PUBLISHED</button>
             <button type="button" class="btn btn-default">HAPPENING</button>
             <button type="button" class="btn btn-default">PAST</button>
@@ -69,6 +69,27 @@
             </div>
         </div>
         </c:forEach>
+        <%-- 分页 开始--%>
+        <div class="text-center">
+            <ul class="pagination">
+                <c:if test="${page.page > 10}">
+                    <li><a href="listauctions?page=${page.page-10}">&laquo;</a></li>
+                </c:if>
+                <c:forEach begin="${page.beginpage}" end="${page.endpage}" var="i">
+                    <li
+                            <c:if test="${i eq page.page}">
+                                class="active"
+                            </c:if>
+                    ><a href="listauctions?page=${i}">${i}</a></li>
+                </c:forEach>
+                <c:if test="${page.pagetotal-page.page >10}">
+                    <li><a href="listauctions?page=${page.page+10}">&raquo;</a></li>
+                </c:if>
+                <li><a href="javascript:;" class="pagejump" onclick="topage('listauctions')" style="margin-left: 10px;">JUMP</a></li>
+                <li><input type="text" class="pagejumptext" id="jumppage" name="jumppage" placeholder="1-${page.pagetotal}" onkeyup="keyUp(this)"></li>
+            </ul>
+        </div>
+        <%-- 分页 结束--%>
     </div>
 </div>
 

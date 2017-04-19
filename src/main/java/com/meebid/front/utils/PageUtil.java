@@ -22,7 +22,7 @@ public class PageUtil {
 
         if(pagetotal<=10){
             beginpage=1;
-            endpage=total;
+            endpage=pagetotal;
         }else if(page-4<=0){
             beginpage=1;
             endpage=10;

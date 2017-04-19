@@ -127,12 +127,21 @@ public class AuctionHouseController {
         String pageSize=StringUtil.safeToString(request.getParameter("pageSize"),"10");
         String orderby=StringUtil.safeToString(request.getParameter("orderby"),"");
 
+
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
-        form.set("sellerId", StringUtil.safeToString(request.getSession().getAttribute("userid"),"0"));
+        form.set("sellerId", "3");
         form.set("pageSize", pageSize);
         form.set("page", page);
-        Auctions[] auctionses= restOps.postForObject(RESTURL+"auction/seller-auction-list",form,Auctions[].class);
-        request.setAttribute("auctionses",auctionses);
+
+
+        ResponseEntity<SearchTemplate<Auctions>> res = restOps.exchange(
+                RESTURL+"auction/seller-auction-list",
+                HttpMethod.POST,
+                new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
+                new ParameterizedTypeReference<SearchTemplate<Auctions>>() {});
+
+        request.setAttribute("auctionses",res.getBody().getDateList());
+        request.setAttribute("page", PageUtil.getPage(Integer.valueOf(page),Integer.parseInt(pageSize),res.getBody().getTotalCount()));
         return "/auctionhouse/listauctions";
     }
     /**
