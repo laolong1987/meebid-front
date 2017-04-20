@@ -34,6 +34,7 @@
 
     <div style="margin-top: 30px">
         <div class="btn-group">
+            <button type="button" class="btn btn-default">ALL</button>
             <button type="button" class="btn btn-default">DRAFT</button>
             <button type="button" class="btn btn-default">PUBLISHED</button>
             <button type="button" class="btn btn-default">HAPPENING</button>
@@ -56,7 +57,20 @@
                         <fmt:setLocale value="en_US" scope="session"/>
                         <fmt:formatDate value="${a.start_time}"  type="both"  pattern="d MMM yyyy, h:mm:s a"/>
                     </li>
-                    <li> <button type="button" class="btn btn-default">33333</button></li>
+                    <li>
+                        <c:if test="${a.status eq 0}">
+                            <span class="label label-default">DRAFT</span>
+                        </c:if>
+                        <c:if test="${a.status eq 1}">
+                            <span class="label label-primary">PUBLISHED</span>
+                        </c:if>
+                        <c:if test="${a.status eq 2}">
+                            <span class="label label-success">HAPPENING NOW</span>
+                        </c:if>
+                        <c:if test="${a.status eq 3}">
+                            <span class="label label-info">PAST</span>
+                        </c:if>
+                    </li>
                 </ul>
             </div>
             <div class="col-xs-2">
