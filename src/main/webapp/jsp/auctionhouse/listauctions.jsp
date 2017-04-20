@@ -34,13 +34,18 @@
 
     <div style="margin-top: 30px">
         <div class="btn-group">
-            <button type="button" class="btn btn-default">ALL</button>
-            <button type="button" class="btn btn-default">DRAFT</button>
-            <button type="button" class="btn btn-default">PUBLISHED</button>
-            <button type="button" class="btn btn-default">HAPPENING</button>
-            <button type="button" class="btn btn-default">PAST</button>
+            <button type="button" onclick="search2('')" class="btn btn-default ${a}">ALL</button>
+            <button type="button" onclick="search2('0')" class="btn btn-default ${a0}">DRAFT</button>
+            <button type="button" onclick="search2('1')" class="btn btn-default ${a1}">PUBLISHED</button>
+            <button type="button" onclick="search2('2')" class="btn btn-default ${a2}">HAPPENING</button>
+            <button type="button" onclick="search2('3')" class="btn btn-default ${a3}">PAST</button>
         </div>
     </div>
+
+    <form action="listauctions" id="searchform" name="searchform" method="post">
+        <input type="hidden" name="status" id="status" value="${status}" >
+        <input type="hidden" name="page" id="page"  >
+    </form>
 
     <div style="margin-top: 30px">
 
@@ -51,9 +56,9 @@
             </div>
             <div class="col-xs-8">
                 <ul class="list-unstyled">
-                    <li><B>${a.name}</B></li>
+                    <li><B>${a.name}${a.status}</B></li>
 
-                    <li>
+                    <li style="padding-top: 20px">
                         <fmt:setLocale value="en_US" scope="session"/>
                         <fmt:formatDate value="${a.start_time}"  type="both"  pattern="d MMM yyyy, h:mm:s a"/>
                     </li>
@@ -75,10 +80,17 @@
             </div>
             <div class="col-xs-2">
                 <ul class="list-unstyled">
-                    <li> <button type="button" class="btn btn-primary auction-action-btn">33333</button></li>
-                    <li>111111</li>
-                    <li>2222</li>
-                    <li>4444</li>
+                    <c:if test="${a.status eq 0}">
+                        <li> <button type="button" class="btn btn-primary auction-action-btn">MANAGE ITEMS</button></li>
+                        <li><a href="">MODIFY INFO</a></li>
+                        <li><a href="">CLONE THIS AUCTION</a></li>
+                        <li><a href="">DELETE</a></li>
+                    </c:if>
+                    <c:if test="${a.status eq 1 || a.status eq 2 || a.status eq 3}">
+                        <li> <button type="button" class="btn btn-primary auction-action-btn">VIEW ITEMS</button></li>
+                        <li> <button type="button" class="btn btn-primary auction-action-btn">VIEW PATICIPANTS</button></li>
+                        <li><a href="">CLONE THIS AUCTION</a></li>
+                    </c:if>
                 </ul>
             </div>
         </div>
@@ -87,19 +99,19 @@
         <div class="text-center">
             <ul class="pagination">
                 <c:if test="${page.page > 10}">
-                    <li><a href="listauctions?page=${page.page-10}">&laquo;</a></li>
+                    <li><a href="listauctions?page=${page.page-10}" onclick="search('${page.page-10}')">&laquo;</a></li>
                 </c:if>
                 <c:forEach begin="${page.beginpage}" end="${page.endpage}" var="i">
                     <li
                             <c:if test="${i eq page.page}">
                                 class="active"
                             </c:if>
-                    ><a href="listauctions?page=${i}">${i}</a></li>
+                    ><a href="listauctions?page=${i}" onclick="search('${page.page-10}')" >${i}</a></li>
                 </c:forEach>
                 <c:if test="${page.pagetotal-page.page >10}">
-                    <li><a href="listauctions?page=${page.page+10}">&raquo;</a></li>
+                    <li><a href="listauctions?page=${page.page+10}" onclick="search('${page.page-10}')" >&raquo;</a></li>
                 </c:if>
-                <li><a href="javascript:;" class="pagejump" onclick="topage('listauctions')" style="margin-left: 10px;">JUMP</a></li>
+                <li><a href="javascript:;" class="pagejump" onclick="topage()" style="margin-left: 10px;">JUMP</a></li>
                 <li><input type="text" class="pagejumptext" id="jumppage" name="jumppage" placeholder="1-${page.pagetotal}" onkeyup="keyUp(this)"></li>
             </ul>
         </div>
@@ -111,6 +123,24 @@
 <script>
     function tocreateauctions(){
         window.location.href="createauction";
+    }
+
+    function search(page){
+        var status=$("status").val();
+        $("#status").val(status.replace("a",""));
+        $("#page").val(page);
+        $("#searchform").submit();
+    }
+    function search2(status){
+        $("#status").val(status);
+        $("#searchform").submit();
+    }
+    function topage(){
+        var status=$("#status").val();
+        $("#status").val(status.replace("a",""));
+        var page=$("#jumppage").val();
+        $("#page").val(page);
+        $("#searchform").submit();
     }
 </script>
 </body>
