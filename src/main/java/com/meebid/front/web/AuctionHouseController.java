@@ -112,6 +112,19 @@ public class AuctionHouseController {
     }
 
     /**
+     * 创建拍卖商品添加
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/showcreateauctionitem")
+    public String showcreateauctionitem(HttpServletRequest request,
+                                    HttpServletResponse response) {
+        return "/auctionhouse/createauctionitem";
+    }
+
+
+    /**
      * 拍卖会列表页面
      * @param request
      * @param response
