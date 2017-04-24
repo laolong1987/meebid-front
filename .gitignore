@@ -5,3 +5,4 @@ target
 *.iml
 classes/*
 *.properties
+setting.properties
