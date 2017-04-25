@@ -1,10 +1,8 @@
 package com.meebid.front.web;
 
-import com.meebid.front.bean.Auctions;
-import com.meebid.front.bean.Message;
-import com.meebid.front.bean.SearchTemplate;
-import com.meebid.front.bean.UserInfo;
+import com.meebid.front.bean.*;
 import com.meebid.front.exception.ErrorException;
+import com.meebid.front.service.UploadService;
 import com.meebid.front.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -12,14 +10,15 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestOperations;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,6 +35,10 @@ public class AuctionHouseController {
 
     @Autowired
     private RestOperations restOps;
+
+    @Autowired
+    private UploadService uploadService;
+
 
     /**
      *拍卖行首页
@@ -109,6 +112,84 @@ public class AuctionHouseController {
         }else{
             return "redirect:/auctionhouse/listauctions";
         }
+    }
+
+    /**
+     * 创建拍卖页面
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/createauctionitem")
+    public String createauctionitem(HttpServletRequest request,
+                                HttpServletResponse response,@RequestParam("uploadfile") MultipartFile[] files) {
+
+        String name=ConvertUtil.safeToString(request.getParameter("name"),"");
+        String description=ConvertUtil.safeToString(request.getParameter("description"),"");
+        String auctionId=ConvertUtil.safeToString(request.getParameter("auctionId"),"");
+        String category=ConvertUtil.safeToString(request.getParameter("category"),"");
+
+        Integer lotnumber=ConvertUtil.safeToInteger(request.getParameter("lotnumber"),0);
+        Integer reservePrice=ConvertUtil.safeToInteger(request.getParameter("reservePrice"),0);
+        Integer startingPrice=ConvertUtil.safeToInteger(request.getParameter("startingPrice"),0);
+        Integer estimateMax=ConvertUtil.safeToInteger(request.getParameter("estimateMax"),0);
+        Integer estimateMin=ConvertUtil.safeToInteger(request.getParameter("estimateMin"),0);
+
+        List<String> imgPaths=new ArrayList<>();
+
+        RequsetAuctionItem requsetAuctionItem=new RequsetAuctionItem();
+        requsetAuctionItem.setAuctionId(auctionId);
+        requsetAuctionItem.setCategory(category);
+        requsetAuctionItem.setLotNumber(lotnumber);
+        requsetAuctionItem.setName(name);
+        requsetAuctionItem.setEstimateMax(estimateMax);
+        requsetAuctionItem.setEstimateMin(estimateMin);
+        requsetAuctionItem.setReservePrice(reservePrice);
+        requsetAuctionItem.setStartingPrice(startingPrice);
+        requsetAuctionItem.setDescription(description);
+
+
+        for (MultipartFile file :files) {
+            try {
+                    String imgurl= uploadService.qiniuyunupload(file.getBytes());
+                imgPaths.add(imgurl);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+        }
+        requsetAuctionItem.setImgPaths(imgPaths);
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = restOps.exchange(
+                    RESTURL+"auction/create",
+                    HttpMethod.POST,
+                    new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
+                    String.class);
+        } catch (ErrorException e){
+            request.setAttribute("errorinfo",e.getErrorBean().getMessage());
+            return "/auctionhouse/createauctionitem";
+        }
+        if (responseEntity.getStatusCode() != HttpStatus.OK) {
+            return "/auctionhouse/createauctionitem";
+        }else{
+            return "redirect:/auctionhouse/listauctions";
+        }
+
+//        if(files!=null&&files.length>0){
+//            //循环获取file数组中得文件
+//            for(int i = 0;i<files.length;i++){
+//                MultipartFile file = files[i];
+//                //保存文件
+//                try {
+//                    String imgurl= uploadService.qiniuyunupload(file.getBytes());
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
     }
 
     /**

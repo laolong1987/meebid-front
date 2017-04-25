@@ -26,18 +26,19 @@
         <H2>CREATE NEW ITEM</H2>
     </div>
 
-    <form class="form-horizontal" role="form">
+    <form class="form-horizontal" id="addform" action="createauctionitem" name="addform" role="form" method="post" enctype="multipart/form-data" >
+        <input name="auctionId" id="auctionId" type="hidden">
         <div class="form-group">
             <label class="col-sm-2 control-label">LOT</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" placeholder="">
+                <input type="text" class="form-control" placeholder="" id="lotnumber" name="lotnumber">
             </div>
             <div class="col-sm-6">
-                <input type="text" class="form-control" placeholder="NAME">
+                <input type="text" class="form-control" placeholder="NAME" id="name" name="name">
             </div>
         </div>
         <div class="form-group">
-            <label  class="col-sm-2 control-label">LOCATION</label>
+            <label  class="col-sm-2 control-label">CATEGORY</label>
             <div class="col-sm-3">
                 <select class="form-control">
                     <option>Fine Arts</option>
@@ -50,12 +51,12 @@
             <div class="col-sm-3 ">
                 <div class="input-group">
                     <div class="input-group-addon">USD</div>
-                    <input type="text" class="form-control" placeholder="LOWEST EST">
+                    <input type="text" class="form-control" placeholder="LOWEST EST" name="estimateMin" id="estimateMin">
                 </div></div>
             <div class="col-sm-3 ">
                 <div class="input-group">
                     <div class="input-group-addon">USD</div>
-                    <input type="text" class="form-control" PLACEHOLDER="HIGHEST ESG" >
+                    <input type="text" class="form-control" PLACEHOLDER="HIGHEST ESG" name="estimateMax" id="estimateMax" >
                 </div></div>
         </div>
 
@@ -64,7 +65,7 @@
             <div class="col-sm-3 ">
                 <div class="input-group">
                     <div class="input-group-addon">USD</div>
-                    <input type="text" class="form-control" >
+                    <input type="text" class="form-control" name="reservePrice" id="reservePrice" >
                 </div></div>
         </div>
         <div class="form-group">
@@ -72,7 +73,7 @@
             <div class="col-sm-3 ">
                 <div class="input-group">
                     <div class="input-group-addon">USD</div>
-                    <input type="text" class="form-control" >
+                    <input type="text" class="form-control" name="startingPrice" id="startingPrice"  >
                 </div></div>
         </div>
 
@@ -86,13 +87,13 @@
         <div class="form-group">
             <label  class="col-sm-2 control-label">DESCRIPTION</label>
             <div class="col-sm-9">
-                <textarea class="form-control" rows="3"></textarea>
+                <textarea class="form-control" rows="3" id="description" name="description"></textarea>
             </div>
         </div>
     </form>
     <div class="text-center">
         <button class="btn btn-default">CANCEL</button>
-        <button class="btn btn-primary" style="width: 220px">CREATE</button>
+        <button class="btn btn-primary" onclick="submit()" style="width: 220px">CREATE</button>
     </div>
 
 </div>
@@ -125,6 +126,10 @@
             msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
         });
     });
+
+    function submit(){
+        $("#addform").submit();
+    }
 
 </script>
 </body>

@@ -1,15 +1,23 @@
 package com.meebid.front.utils;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.Gson;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
+import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.InputStream;
 
 /**
  * Created by gaoyang on 2017/4/24.
  */
+@Repository
 public class QiNiuCloudUpload {
     //设置好账号的ACCESS_KEY和SECRET_KEY
     String ACCESS_KEY = "cSeU29Y0oNjG4SDUS9sKKMKz8kINlB9mlVbaA6NJ";
@@ -50,9 +58,11 @@ public class QiNiuCloudUpload {
 
 
 
-    public JSONPObject upload(String fileName, byte[] file) throws Exception {
-        Response res = uploadManager.put(file, fileName, QiNiuYunUtil.getInstance().getUpToken());
-//        JSONPObject jsonObject = JSONPObject.fromObject(res.bodyString());
-        return jsonObject;
+    public  void upload(byte[] file) throws Exception {
+        Response response = uploadManager.put(file, null, QiNiuYunUtil.getInstance().getUpToken());
+        //解析上传成功的结果
+        DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
+        System.out.println(putRet.key);
+        System.out.println(putRet.hash);
     }
 }
