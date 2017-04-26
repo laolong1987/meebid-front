@@ -16,10 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by gaoyang on 16/2/28.
@@ -137,16 +135,16 @@ public class AuctionHouseController {
 
         List<String> imgPaths=new ArrayList<>();
 
-        RequsetAuctionItem requsetAuctionItem=new RequsetAuctionItem();
-        requsetAuctionItem.setAuctionId(auctionId);
-        requsetAuctionItem.setCategory(category);
-        requsetAuctionItem.setLotNumber(lotnumber);
-        requsetAuctionItem.setName(name);
-        requsetAuctionItem.setEstimateMax(estimateMax);
-        requsetAuctionItem.setEstimateMin(estimateMin);
-        requsetAuctionItem.setReservePrice(reservePrice);
-        requsetAuctionItem.setStartingPrice(startingPrice);
-        requsetAuctionItem.setDescription(description);
+        RequestAuctionItem requestAuctionItem=new RequestAuctionItem();
+        requestAuctionItem.setAuctionId(auctionId);
+        requestAuctionItem.setCategory(category);
+        requestAuctionItem.setLotNumber(lotnumber);
+        requestAuctionItem.setName(name);
+        requestAuctionItem.setEstimateMax(estimateMax);
+        requestAuctionItem.setEstimateMin(estimateMin);
+        requestAuctionItem.setReservePrice(reservePrice);
+        requestAuctionItem.setStartingPrice(startingPrice);
+        requestAuctionItem.setDescription(description);
 
 
         for (MultipartFile file :files) {
@@ -157,7 +155,7 @@ public class AuctionHouseController {
                     e.printStackTrace();
                 }
         }
-        requsetAuctionItem.setImgPaths(imgPaths);
+        requestAuctionItem.setImgPaths(imgPaths);
 
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
 
@@ -166,7 +164,7 @@ public class AuctionHouseController {
             responseEntity = restOps.exchange(
                     RESTURL+"auction/create",
                     HttpMethod.POST,
-                    new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
+                    new HttpEntity<RequestAuctionItem>(requestAuctionItem, new HttpHeaders()),
                     String.class);
         } catch (ErrorException e){
             request.setAttribute("errorinfo",e.getErrorBean().getMessage());

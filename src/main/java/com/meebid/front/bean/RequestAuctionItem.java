@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by gaoyang on 17/4/25.
  */
-public class RequsetAuctionItem {
+public class RequestAuctionItem {
     private String auctionId;
     private String category;
     private String description;
