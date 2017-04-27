@@ -149,20 +149,17 @@ public class AuctionHouseController {
 
         for (MultipartFile file :files) {
             try {
-                    String imgurl= uploadService.qiniuyunupload(file.getBytes());
-                imgPaths.add(imgurl);
+                String imgurl= uploadService.qiniuyunupload(file.getBytes());
+                imgPaths.add(SettingUtil.getSetting("IMGURL")+imgurl);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
         }
         requestAuctionItem.setImgPaths(imgPaths);
-
-        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
-
         ResponseEntity<String> responseEntity = null;
         try {
             responseEntity = restOps.exchange(
-                    RESTURL+"auction/create",
+                    RESTURL+"auction-items/create",
                     HttpMethod.POST,
                     new HttpEntity<RequestAuctionItem>(requestAuctionItem, new HttpHeaders()),
                     String.class);
@@ -170,7 +167,7 @@ public class AuctionHouseController {
             request.setAttribute("errorinfo",e.getErrorBean().getMessage());
             return "/auctionhouse/createauctionitem";
         }
-        if (responseEntity.getStatusCode() != HttpStatus.OK) {
+        if (responseEntity.getStatusCode() != HttpStatus.CREATED) {
             return "/auctionhouse/createauctionitem";
         }else{
             return "redirect:/auctionhouse/listauctions";
@@ -188,6 +185,18 @@ public class AuctionHouseController {
 //                }
 //            }
 //        }
+    }
+
+    /**
+     * 拍品列表页面
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/listauctionitem")
+    public String listauctionitem(HttpServletRequest request,
+                                        HttpServletResponse response) {
+        return "/auctionhouse/listauctionitem";
     }
 
     /**
