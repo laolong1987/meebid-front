@@ -31,7 +31,7 @@
                 </button>
                 <div style="margin-top: 20px">
                     Live auction?
-                    <input type="checkbox" style="width: 33px" name="my-checkbox" checked>
+                    <input type="checkbox" name="my-checkbox" checked>
                 </div>
                 <ul class="list-group" style="margin-top: 20px" >
                     <li class="list-group-item">
@@ -119,7 +119,7 @@
 
 <script>
     $("[name='my-checkbox']").bootstrapSwitch({
-        size: "mini",
+        size: "mini"
     });
 </script>
 </body>

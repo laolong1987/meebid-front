@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.min.css">
 <link href="${ctx}/static/css/layout.css" rel="stylesheet" type="text/css"/>
 <link type="text/css" rel="stylesheet" href="${ctx}/static/css/fileinput.css" />
-<link type="text/css" rel="stylesheet" href="${ctx}/static/css/bootstrap-switch.min.css" />
+<link type="text/css" rel="stylesheet" href="${ctx}/static/css/bootstrap-switch.css" />
 
 
 <!-- jquery -->
