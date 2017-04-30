@@ -8,6 +8,31 @@
     text-transform: uppercase;
     z-index: 99;
     background-color: #ededed;
+    margin-top: 50px;
+}
+
+.auctionleftMenu{
+    /*background-position: 0 -300px;*/
+    display: inline-block;
+    min-height: calc(100vh - 0px);
+    min-width: 50px;
+    position: fixed;
+    text-transform: uppercase;
+    z-index: 99;
+    background-color: #e4e3e3;
+    padding-left: 15px;
+    margin-left: 50px;
+    padding-top: 35px;
+    padding-right: 10px;
+    margin-top: 50px;
+}
+
+.auctionleftMenu ul li{
+    background-color: #e4e3e3;
+}
+
+.auctionleftMenu li{
+    border-bottom:1px solid #767676;
 }
 
 .main-nav {
@@ -17,8 +42,9 @@
     text-align: center;
 }
 .auction-main{
-    margin-top: 50px;
+    /*margin-top: 50px;*/
     margin-left: 70px;
+    padding-top: 20px;
 }
 
 .menu-container ul li{
@@ -32,6 +58,7 @@
 
 .auction-top{
     padding-top: 20px;
+    padding-right: 0px;
 }
 
 .auction-top button{

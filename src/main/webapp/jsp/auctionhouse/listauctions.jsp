@@ -21,7 +21,7 @@
 <!-- top left -->
 <div class="auction-main">
 
-    <div class="row auction-top">
+    <div class="row auction-top"style="margin-right: 0px">
         <div class="col-xs-2 auction-top-logo">
             <h2>AUCTIONS</h2>
         </div>
@@ -45,6 +45,10 @@
     <form action="listauctions" id="searchform" name="searchform" method="post">
         <input type="hidden" name="status" id="status" value="${status}" >
         <input type="hidden" name="page" id="page"  >
+    </form>
+
+    <form action="listauctionitem" id="listauctionitemform" name="listauctionitemform" method="post">
+        <input type="hidden" name="auctionId" id="auctionId"  >
     </form>
 
     <div style="margin-top: 30px">
@@ -81,7 +85,8 @@
             <div class="col-xs-2">
                 <ul class="list-unstyled">
                     <c:if test="${a.status eq 0}">
-                        <li> <button type="button" class="btn btn-primary auction-action-btn">MANAGE ITEMS</button></li>
+                        <li> <button type="button" onclick="viewtimes('${a.id}')"
+                                     class="btn btn-primary auction-action-btn">MANAGE ITEMS</button></li>
                         <li><a href="">MODIFY INFO</a></li>
                         <li><a href="">CLONE THIS AUCTION</a></li>
                         <li><a href="">DELETE</a></li>
@@ -122,7 +127,7 @@
 
 <script>
     function tocreateauctions(){
-        window.location.href="createauction";
+        window.location.href="showcreateauction";
     }
 
     function search(page){
@@ -142,6 +147,12 @@
         $("#page").val(page);
         $("#searchform").submit();
     }
+    function viewtimes(auctionId){
+        $("#auctionId").val(auctionId);
+        $("#listauctionitemform").submit();
+    }
+
+
 </script>
 </body>
 </html>

@@ -68,6 +68,18 @@ public class AuctionHouseController {
      * @param response
      * @return
      */
+    @RequestMapping(value = "/showlistauctiondetail")
+    public String showlistauctiondetail(HttpServletRequest request,
+                                    HttpServletResponse response) {
+        return "/auctionhouse/listauctiondetail";
+    }
+
+    /**
+     * 创建拍卖页面
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/createauction")
     public String createauction(HttpServletRequest request,
                                     HttpServletResponse response) {
@@ -92,21 +104,21 @@ public class AuctionHouseController {
         form.set("timezone", timezone);
         form.set("desc", desc);
         form.set("start_time",year+"-"+month+"-"+day+" "+house+":"+minute+":00");
-        form.set("sellerId","0");
+        form.set("sellerId",uid);
 
         ResponseEntity<String> responseEntity = null;
         try {
-            responseEntity = restOps.exchange(
-                    RESTURL+"auction/create",
+            responseEntity = restOps.exchange(                    RESTURL+"auction/create",
+
                     HttpMethod.POST,
                     new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
                     String.class);
         } catch (ErrorException e){
             request.setAttribute("errorinfo",e.getErrorBean().getMessage());
-            return "/auctionhouse/createauction";
+            return "/auctionhouse/showcreateauction";
         }
         if (responseEntity.getStatusCode() != HttpStatus.OK) {
-            return "/auctionhouse/createauction";
+            return "/auctionhouse/showcreateauction";
         }else{
             return "redirect:/auctionhouse/listauctions";
         }
@@ -172,19 +184,6 @@ public class AuctionHouseController {
         }else{
             return "redirect:/auctionhouse/listauctions";
         }
-
-//        if(files!=null&&files.length>0){
-//            //循环获取file数组中得文件
-//            for(int i = 0;i<files.length;i++){
-//                MultipartFile file = files[i];
-//                //保存文件
-//                try {
-//                    String imgurl= uploadService.qiniuyunupload(file.getBytes());
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
     }
 
     /**
@@ -227,7 +226,7 @@ public class AuctionHouseController {
 
 
         MultiValueMap<String, Object> form = new LinkedMultiValueMap<String, Object>();
-        form.set("sellerId", "3");
+        form.set("sellerId", uid);
         form.set("pageSize", ""+pageSize);
         form.set("page", ""+page);
         form.set("status", status);

@@ -20,7 +20,7 @@
 <jsp:include page="left.jsp" />
 <!-- top left -->
 <div class="auction-main">
-    <div class="row auction-top">
+    <div class="auction-top">
         <div class="col-xs-2 auction-top-logo">
             <h2>AUCTIONS</h2>
         </div>
