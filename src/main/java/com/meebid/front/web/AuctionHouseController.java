@@ -74,6 +74,19 @@ public class AuctionHouseController {
         return "/auctionhouse/listauctiondetail";
     }
 
+
+    /**
+     * 创建拍卖页面
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/showlistauctionsetting")
+    public String showlistauctionsetting(HttpServletRequest request,
+                                        HttpServletResponse response) {
+        return "/auctionhouse/listauctionsetting";
+    }
+
     /**
      * 创建拍卖页面
      * @param request

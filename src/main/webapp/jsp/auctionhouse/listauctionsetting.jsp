@@ -23,76 +23,65 @@
 <!-- top left -->
 <div class="auction-main container" style="padding-left: 200px">
     <div class="row auction-top">
-        <div class="col-xs-4 auction-top-logo">
+        <div class="auction-top-logo">
             <h2>AUCTIONS SETTINGS</h2>
         </div>
     </div>
     <div class="">
-    <form role="form">
-        <div class="form-group">
-             <label for="name" class="control-label">AUCTION NAME</label>
-            <input type="text" class="form-control" id="name">
-        </div>
-        <div class="form-group">
-            <label for="name" class="control-label">BID INCREMENTS</label>
-            <div class="row">
-                <div class="col-sm-4">
-                    <label for="name" class="control-label">From</label>
+        <form role="form">
+            <div class="form-group">
+                <label for="name" class="control-label">AUCTION NAME</label>
+                <input type="text" class="form-control" id="name">
+            </div>
+            <div class="form-group">
+                <label for="name" class="control-label">BID INCREMENTS</label>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label for="name" class="control-label">From</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="name" class="control-label">To</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="name" class="control-label">Increment</label>
+                    </div>
                 </div>
-                <div class="col-sm-4">
-                    <label for="name" class="control-label">To</label>
-                </div>
-                <div class="col-sm-4">
-                    <label for="name" class="control-label">Increment</label>
-                </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <input type="text" class="form-control"  placeholder="CITY" id="city" name="city">
-                </div>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control"  placeholder="STATE" id="state" name="state">
-                </div>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control"  placeholder="COUNTRY" id="country" name="country">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="estimateMin" id="estimateMin" value="0">
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="estimateMin" id="estimateMin" value="1000">
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="estimateMin" id="estimateMin" value="">
+                    </div>
                 </div>
             </div>
-            <input type="text" class="form-control" style="margin-top: 20px" id="name">
-        </div>
-        <div class="form-group">
-            <label for="name" class="control-label">TIMEZONE</label>
-            <input type="text" class="form-control" id="name">
-        </div>
-        <div class="form-group">
-            <label for="name" class="control-label">START TIME</label>
-            <div class="row">
-                <div class="col-sm-4">
-                    <input type="text" class="form-control"  placeholder="" id="city" name="city">
-                </div>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control"  placeholder="" id="state" name="state">
+            <div class="form-group">
+                <label for="name" class="control-label">BUYER PREMIUM</label>
+
+                <div class="input-group col-sm-4">
+                    <input type="text" class="form-control" name="estimateMin" id="estimateMin">
+
+                    <div class="input-group-addon">%</div>
                 </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="name" class="control-label">EXHIBITIONS</label>
-            <div id="addnewexhibition">
-            <div class="row" style="margin-bottom: 20px">
-                <div class="col-sm-8">
-                    <input type="text" class="form-control"  placeholder="" id="city" name="city">
-                </div>
-                <div style="margin-top: 10px"><a class="glyphicon glyphicon-trash" onclick="removenewexhibition(this)"></a></div>
+
+            <div class="form-group">
+                <label for="name" class="control-label">PAYMENT OPTIONS</label>
+                <textarea class="form-control" rows="3" name="desc"></textarea>
             </div>
+            <div class="form-group">
+                <label for="name" class="control-label">SHIPPING</label>
+                <textarea class="form-control" rows="3" name="desc"></textarea>
             </div>
-            <button type="button" onclick="addnewexhibition()" class="btn btn-primary" >ADD NEW EXHIBITION</button>
-        </div>
-        <div class="form-group">
-            <label for="name" class="control-label">SALE OVERVIEW</label>
-            <textarea class="form-control" rows="3" name="desc" id="desc"></textarea>
-        </div>
-        <div class="text-center">
-            <button class="btn btn-default">SAVE</button>
-        </div>
-    </form>
+
+            <div class="text-center">
+                <button class="btn btn-default">SAVE</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -102,17 +91,7 @@
 </form>
 
 <script>
-    function addnewexhibition(){
-        var d='';
-        d+='<div class="row" style="margin-bottom: 20px"><div class="col-sm-8">';
-        d+='<input type="text" class="form-control"  placeholder="" id="city" name="city"></div>';
-        d+='<div style="margin-top: 10px"><a class="glyphicon glyphicon-trash" onclick="removenewexhibition(this)"></a></div></div>';
-        $("#addnewexhibition").append(d);
-    }
 
-    function removenewexhibition(obj){
-        $(obj).parent().parent().remove();
-    }
 
 </script>
 </body>
