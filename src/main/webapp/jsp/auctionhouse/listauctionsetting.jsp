@@ -58,6 +58,11 @@
                         <input type="text" class="form-control" name="estimateMin" id="estimateMin" value="">
                     </div>
                 </div>
+
+                <div id="incrmentdiv">
+
+                </div>
+
             </div>
             <div class="form-group">
                 <label for="name" class="control-label">BUYER PREMIUM</label>

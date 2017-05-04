@@ -118,20 +118,21 @@ public class AuctionHouseController {
         form.set("desc", desc);
         form.set("start_time",year+"-"+month+"-"+day+" "+house+":"+minute+":00");
         form.set("sellerId",uid);
+        form.set("status","0");
 
         ResponseEntity<String> responseEntity = null;
         try {
-            responseEntity = restOps.exchange(                    RESTURL+"auction/create",
+            responseEntity = restOps.exchange(RESTURL+"auction/create",
 
                     HttpMethod.POST,
                     new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
                     String.class);
         } catch (ErrorException e){
             request.setAttribute("errorinfo",e.getErrorBean().getMessage());
-            return "/auctionhouse/showcreateauction";
+            return "/auctionhouse/createauction";
         }
-        if (responseEntity.getStatusCode() != HttpStatus.OK) {
-            return "/auctionhouse/showcreateauction";
+        if (responseEntity.getStatusCode() != HttpStatus.CREATED) {
+            return "/auctionhouse/createauction";
         }else{
             return "redirect:/auctionhouse/listauctions";
         }
@@ -208,6 +209,11 @@ public class AuctionHouseController {
     @RequestMapping(value = "/listauctionitem")
     public String listauctionitem(HttpServletRequest request,
                                         HttpServletResponse response) {
+
+
+
+        //拍卖会ID
+        request.setAttribute("auctionId",ConvertUtil.safeToString(request.getParameter("auctionId"),""));
         return "/auctionhouse/listauctionitem";
     }
 
