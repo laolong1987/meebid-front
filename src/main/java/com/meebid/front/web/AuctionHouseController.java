@@ -196,7 +196,8 @@ public class AuctionHouseController {
         if (responseEntity.getStatusCode() != HttpStatus.CREATED) {
             return "/auctionhouse/createauctionitem";
         }else{
-            return "redirect:/auctionhouse/listauctions";
+            request.setAttribute("auctionId",ConvertUtil.safeToString(request.getParameter("auctionId"),""));
+            return "/auctionhouse/listauctionitem";
         }
     }
 
@@ -210,6 +211,31 @@ public class AuctionHouseController {
     public String listauctionitem(HttpServletRequest request,
                                         HttpServletResponse response) {
 
+        String auctionId=  ConvertUtil.safeToString(request.getParameter("auctionId"),"");
+
+        System.out.println("auctionId---"+auctionId);
+
+        String page=StringUtil.safeToString(request.getParameter("page"),"1");
+        String pageSize=StringUtil.safeToString(request.getParameter("pageSize"),"10");
+        String itemNumOrder=StringUtil.safeToString(request.getParameter("itemNumOrder"),"");
+        String priceOrder=StringUtil.safeToString(request.getParameter("priceOrder"),"");
+        String popularOrder=StringUtil.safeToString(request.getParameter("pageSize"),"");
+
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+        form.set("auctionId", auctionId);
+        form.set("pageSize", pageSize);
+        form.set("page", page);
+        form.set("itemNumOrder", itemNumOrder);
+        form.set("priceOrder", priceOrder);
+        form.set("popularOrder", popularOrder);
+        ResponseEntity<SearchTemplate<Item>> res = restOps.exchange(
+                RESTURL+"auction-items/items-list",
+                HttpMethod.POST,
+                new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
+                new ParameterizedTypeReference<SearchTemplate<Item>>() {});
+        request.setAttribute("list",res.getBody().getDateList());
+        request.setAttribute("page", PageUtil.getPage(Integer.valueOf(page),Integer.parseInt(pageSize),res.getBody().getTotalCount()));
 
 
         //拍卖会ID
@@ -226,6 +252,8 @@ public class AuctionHouseController {
     @RequestMapping(value = "/showcreateauctionitem")
     public String showcreateauctionitem(HttpServletRequest request,
                                     HttpServletResponse response) {
+        //拍卖会ID
+        request.setAttribute("auctionId",ConvertUtil.safeToString(request.getParameter("auctionId"),""));
         return "/auctionhouse/createauctionitem";
     }
 

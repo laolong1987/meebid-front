@@ -27,7 +27,7 @@
     </div>
 
     <form class="form-horizontal" id="addform" action="createauctionitem" name="addform" role="form" method="post" enctype="multipart/form-data" >
-        <input name="auctionId" id="auctionId" type="hidden">
+        <input name="auctionId" id="auctionId" type="hidden" value="${auctionId}">
         <div class="form-group">
             <label class="col-sm-2 control-label">LOT</label>
             <div class="col-sm-3">

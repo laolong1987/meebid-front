@@ -27,47 +27,77 @@
             <h2>AUCTIONS ITEMS</h2>
         </div>
         <div class="col-xs-8">
-            <button type="button" class="btn btn-primary" onclick="showaddwindows()">
-                WRITE NEW MESSAGE
+            <button type="button" class="btn btn-primary" onclick="addnewitem()">
+                CREATE NEW ITEM
             </button>
             <button type="button" class="btn btn-primary" onclick="updateMessageStateall()">
-                MARK ALL READ
+                BULK UPLOAD
             </button>
         </div>
     </div>
-    <form action="listmessage" method="post" id="listform" name="listform">
+    <form action="listauctionitem" method="post" id="listform" name="listform">
         <input type="hidden" value="" name="pageSize" id="pageSize">
         <input type="hidden" value="" name="page" id="page">
+        <input type="hidden" value="${auctionId}" name="auctionId" id="auctionId">
     </form>
-    <table class="table table-hover" style="margin-top: 20px" id="messagetable">
-        <thead>
-        <tr>
-            <th>Subject</th>
-            <th>Correspondents</th>
-            <th>Date</th>
-        </tr>
-        </thead>
-        <tbody>
-        <fmt:setLocale value="en_US" scope="session"/>
-        <fmt:formatDate value="${date}" type="BOTH" pattern="d MMM yyyy, h:mm:s a"/>
-        <c:forEach var="m" items="${listmessage}">
-            <c:if test="${m.state eq 0}">
-                <tr class="tablecrude" id="${m.id}">
-            </c:if>
-            <c:if test="${m.state eq 1}">
-                <tr class="">
-            </c:if>
-            <td>${m.subject}</td>
-            <td>${m.correspondentName}</td>
-            <td><fmt:formatDate value="${m.createTime}"  type="both"  pattern="d MMM yyyy, h:mm:s a"/></td>
-            <%--<td>${m.createTime}</td>--%>
-            <td class="hidden">${m.content}</td>
-            <td class="hidden">${m.id}</td>
-            <td class="hidden">${m.correspondent}</td>
-            </tr>
+
+    <div style="margin-top: 30px">
+        <div class="btn-group">
+            <button type="button" onclick="search2('')" class="btn btn-default ${a}">VALID</button>
+            <button type="button" onclick="search2('0')" class="btn btn-default ${a0}">INVALID</button>
+        </div>
+    </div>
+    <div style="margin-top: 30px">
+        <c:forEach items="${list}" var="a">
+            <div class="row auction-box">
+                <div class="col-xs-2">
+                    <img src="${a.thumbImg}">
+                </div>
+                <div class="col-xs-8">
+                    <ul class="list-unstyled">
+                        <li><B>${a.name}${a.status}</B></li>
+
+                        <li style="padding-top: 20px">
+                            <fmt:setLocale value="en_US" scope="session"/>
+                            <fmt:formatDate value="${a.start_time}"  type="both"  pattern="d MMM yyyy, h:mm:s a"/>
+                        </li>
+                        <li>
+                            <c:if test="${a.status eq 0}">
+                                <span class="label label-default">DRAFT</span>
+                            </c:if>
+                            <c:if test="${a.status eq 1}">
+                                <span class="label label-primary">PUBLISHED</span>
+                            </c:if>
+                            <c:if test="${a.status eq 2}">
+                                <span class="label label-success">HAPPENING NOW</span>
+                            </c:if>
+                            <c:if test="${a.status eq 3}">
+                                <span class="label label-info">PAST</span>
+                            </c:if>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xs-2">
+                    <ul class="list-unstyled">
+                        <c:if test="${a.status eq 0}">
+                            <li> <button type="button" onclick="viewtimes('${a.id}')"
+                                         class="btn btn-primary auction-action-btn">MANAGE ITEMS</button></li>
+                            <li><a href="">MODIFY INFO</a></li>
+                            <li><a href="">CLONE THIS AUCTION</a></li>
+                            <li><a href="">DELETE</a></li>
+                        </c:if>
+                        <c:if test="${a.status eq 1 || a.status eq 2 || a.status eq 3}">
+                            <li> <button type="button" class="btn btn-primary auction-action-btn">VIEW ITEMS</button></li>
+                            <li> <button type="button" class="btn btn-primary auction-action-btn">VIEW PATICIPANTS</button></li>
+                            <li><a href="">CLONE THIS AUCTION</a></li>
+                        </c:if>
+                    </ul>
+                </div>
+            </div>
         </c:forEach>
-        </tbody>
-    </table>
+
+
+
      <%--分页 开始--%>
     <c:if test="${page.page ne 0}">
         <div class="text-center">
@@ -95,11 +125,12 @@
     <%-- 分页 结束--%>
 </div>
 
-
 <script>
-    $("[name='my-checkbox']").bootstrapSwitch({
-        size: "mini"
-    });
+
+function addnewitem(){
+    $('#listform').attr("action", "showcreateauctionitem").submit();
+}
+
 </script>
 </body>
 </html>
