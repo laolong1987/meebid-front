@@ -49,13 +49,13 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" name="estimateMin" id="estimateMin" value="0">
+                        <input type="text" class="form-control" name="estimateMin"  value="0">
                     </div>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" name="estimateMin" id="estimateMin" value="1000">
+                        <input type="text" class="form-control" name="estimateMin"  onblur="addincrements(this)" value="-">
                     </div>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" name="estimateMin" id="estimateMin" value="">
+                        <input type="text" class="form-control" name="estimateMin"  value="">
                     </div>
                 </div>
 
@@ -97,6 +97,23 @@
 
 <script>
 
+    function addincrements(obj){
+        var a=obj.value;
+        if(!isNaN(a)) {
+            var d='';
+            d+='<div class="row"><div class="col-sm-4">';
+            d+='<input type="text" class="form-control" name="estimateMin" value="'+a+'"></div>';
+            d+='<div class="col-sm-4">';
+            d+='<input type="text" class="form-control" name="estimateMin"  onblur="addincrements(this)" value="-">';
+            d+='</div><div class="col-sm-4">';
+            d+='<input type="text" class="form-control" name="estimateMin" ></div></div>';
+            $("#incrmentdiv").append(d);
+        }else{
+            $(obj).val("-");
+            //删除以后的行
+            $(obj).parent().parent().nextAll().remove();
+        }
+    }
 
 </script>
 </body>

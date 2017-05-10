@@ -226,12 +226,12 @@ public class AuctionHouseController {
         form.set("auctionId", auctionId);
         form.set("pageSize", pageSize);
         form.set("page", page);
-        form.set("itemNumOrder", itemNumOrder);
-        form.set("priceOrder", priceOrder);
-        form.set("popularOrder", popularOrder);
+//        form.set("itemNumOrder", itemNumOrder);
+//        form.set("priceOrder", priceOrder);
+//        form.set("popularOrder", popularOrder);
         ResponseEntity<SearchTemplate<Item>> res = restOps.exchange(
                 RESTURL+"auction-items/items-list",
-                HttpMethod.POST,
+                HttpMethod.GET,
                 new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
                 new ParameterizedTypeReference<SearchTemplate<Item>>() {});
         request.setAttribute("list",res.getBody().getDateList());

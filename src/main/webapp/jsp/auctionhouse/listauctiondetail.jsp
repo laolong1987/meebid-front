@@ -78,7 +78,7 @@
                 <div style="margin-top: 10px"><a class="glyphicon glyphicon-trash" onclick="removenewexhibition(this)"></a></div>
             </div>
             </div>
-            <button type="button" onclick="addnewexhibition()" class="btn btn-primary" >ADD NEW EXHIBITION</button>
+            <button type="button" onclick="showaddwindows()" class="btn btn-primary" >ADD NEW EXHIBITION</button>
         </div>
         <div class="form-group">
             <label for="name" class="control-label">SALE OVERVIEW</label>
@@ -89,6 +89,46 @@
         </div>
     </form>
     </div>
+</div>
+
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="">New Exhibition</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                <form class="form-horizontal" role="form" id="addform" name="addform" method="post" action="addmessage">
+                    <input type="hidden" id="recipients" name="recipients" >
+                    <div class="form-group">
+                        <label for="name" class="control-label">LOCATION</label>
+                        <input type="text" class="form-control" style="width: 550px" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label">VIEWING TIME</label>
+                        <div class="row" style="width: 550px">
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control ">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control ">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control ">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+                <button type="button" class="btn btn-primary" onclick="add()">CREATE</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div>
 
 <form action="listmessage" method="post" id="listform" name="listform">
@@ -108,6 +148,11 @@
     function removenewexhibition(obj){
         $(obj).parent().parent().remove();
     }
+
+    function showaddwindows(){
+        $('#add').modal('show');
+    }
+
 
 </script>
 </body>
