@@ -6,6 +6,7 @@ import java.util.List;
  * Created by gaoyang on 17/4/25.
  */
 public class RequestAuctionItem {
+    private String lotId;
     private String auctionId;
     private String category;
     private String description;
@@ -16,6 +17,14 @@ public class RequestAuctionItem {
     private Integer reservePrice;
     private Integer startingPrice;
     List<String> imgPaths;
+
+    public String getLotId() {
+        return lotId;
+    }
+
+    public void setLotId(String lotId) {
+        this.lotId = lotId;
+    }
 
     public String getCategory() {
         return category;

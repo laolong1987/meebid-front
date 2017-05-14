@@ -13,11 +13,13 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gaoyang on 16/2/28.
@@ -146,12 +148,13 @@ public class AuctionHouseController {
      */
     @RequestMapping(value = "/createauctionitem")
     public String createauctionitem(HttpServletRequest request,
-                                HttpServletResponse response,@RequestParam("uploadfile") MultipartFile[] files) {
+                                HttpServletResponse response,@RequestParam("uploadfile") MultipartFile[] files,RedirectAttributes attr) {
 
         String name=ConvertUtil.safeToString(request.getParameter("name"),"");
         String description=ConvertUtil.safeToString(request.getParameter("description"),"");
         String auctionId=ConvertUtil.safeToString(request.getParameter("auctionId"),"");
         String category=ConvertUtil.safeToString(request.getParameter("category"),"");
+        String lotId=ConvertUtil.safeToString(request.getParameter("lotId"),"");
 
         Integer lotnumber=ConvertUtil.safeToInteger(request.getParameter("lotnumber"),0);
         Integer reservePrice=ConvertUtil.safeToInteger(request.getParameter("reservePrice"),0);
@@ -171,7 +174,14 @@ public class AuctionHouseController {
         requestAuctionItem.setReservePrice(reservePrice);
         requestAuctionItem.setStartingPrice(startingPrice);
         requestAuctionItem.setDescription(description);
+        requestAuctionItem.setLotId(lotId);
 
+        String url=RESTURL;
+        if(!"".equals(lotId)){
+            url+="auction-items/update";
+        }else{
+            url+="auction-items/create";
+        }
 
         for (MultipartFile file :files) {
             try {
@@ -185,7 +195,7 @@ public class AuctionHouseController {
         ResponseEntity<String> responseEntity = null;
         try {
             responseEntity = restOps.exchange(
-                    RESTURL+"auction-items/create",
+                    url,
                     HttpMethod.POST,
                     new HttpEntity<RequestAuctionItem>(requestAuctionItem, new HttpHeaders()),
                     String.class);
@@ -196,8 +206,8 @@ public class AuctionHouseController {
         if (responseEntity.getStatusCode() != HttpStatus.CREATED) {
             return "/auctionhouse/createauctionitem";
         }else{
-            request.setAttribute("auctionId",ConvertUtil.safeToString(request.getParameter("auctionId"),""));
-            return "/auctionhouse/listauctionitem";
+            attr.addAttribute("auctionId",ConvertUtil.safeToString(request.getParameter("auctionId"),""));
+            return "redirect:/auctionhouse/listauctionitem";
         }
     }
 
@@ -222,21 +232,19 @@ public class AuctionHouseController {
         String popularOrder=StringUtil.safeToString(request.getParameter("pageSize"),"");
 
 
-        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+        MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
         form.set("auctionId", auctionId);
-        form.set("pageSize", pageSize);
-        form.set("page", page);
+        form.set("pageSize", Integer.parseInt(pageSize));
+        form.set("page", Integer.parseInt(page));
 //        form.set("itemNumOrder", itemNumOrder);
 //        form.set("priceOrder", priceOrder);
 //        form.set("popularOrder", popularOrder);
         ResponseEntity<SearchTemplate<Item>> res = restOps.exchange(
-                RESTURL+"auction-items/items-list",
-                HttpMethod.GET,
-                new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
-                new ParameterizedTypeReference<SearchTemplate<Item>>() {});
+                RESTURL+"auction-items/items-list?auctionId={auctionId}&pageSize={pageSize}&page={page}",
+                HttpMethod.GET,null,
+                new ParameterizedTypeReference<SearchTemplate<Item>>() {},auctionId,pageSize,page);
         request.setAttribute("list",res.getBody().getDateList());
         request.setAttribute("page", PageUtil.getPage(Integer.valueOf(page),Integer.parseInt(pageSize),res.getBody().getTotalCount()));
-
 
         //拍卖会ID
         request.setAttribute("auctionId",ConvertUtil.safeToString(request.getParameter("auctionId"),""));
@@ -252,8 +260,19 @@ public class AuctionHouseController {
     @RequestMapping(value = "/showcreateauctionitem")
     public String showcreateauctionitem(HttpServletRequest request,
                                     HttpServletResponse response) {
+        String lotId=StringUtil.safeToString(request.getParameter("lotId"),"");
+        String auctionId = StringUtil.safeToString(request.getParameter("auctionId"),"");
+
+        ResponseEntity<RequestAuctionItem> responseEntity = null;
+        responseEntity = restOps.exchange(
+                RESTURL+"auction-items/item-detail?lotId={lotId}&auctionId={auctionId}",
+                HttpMethod.GET,
+                null,
+                RequestAuctionItem.class,lotId,auctionId);
+        request.setAttribute("item",responseEntity.getBody());
         //拍卖会ID
         request.setAttribute("auctionId",ConvertUtil.safeToString(request.getParameter("auctionId"),""));
+        request.setAttribute("lotId",lotId);
         return "/auctionhouse/createauctionitem";
     }
 
@@ -404,4 +423,26 @@ public class AuctionHouseController {
         }
         return "";
     }
+
+
+
+    @RequestMapping(value = "/deleteitem",method = RequestMethod.POST)
+    @ResponseBody
+    public Object deleteitem(HttpServletRequest request, HttpServletResponse response){
+        String lotId=StringUtil.safeToString(request.getParameter("lotId"),"");
+        String auctionId = StringUtil.safeToString(request.getParameter("auctionId"),"");
+
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = restOps.exchange(
+                    RESTURL+"auction-items/delete?lotId={lotId}&auctionId={auctionId}",
+                    HttpMethod.DELETE,
+                    null,
+                    String.class,lotId,auctionId);
+        } catch (ErrorException e){
+            return e.getErrorBean().getMessage();
+        }
+        return "";
+    }
+
 }

@@ -28,20 +28,31 @@
 
     <form class="form-horizontal" id="addform" action="createauctionitem" name="addform" role="form" method="post" enctype="multipart/form-data" >
         <input name="auctionId" id="auctionId" type="hidden" value="${auctionId}">
+        <input name="lotId" id="lotId" type="hidden" value="${lotId}">
         <div class="form-group">
             <label class="col-sm-2 control-label">LOT</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" placeholder="" id="lotnumber" name="lotnumber">
+                <input type="text" class="form-control" placeholder="" id="lotnumber" name="lotnumber" value="${item.lotNumber}">
             </div>
             <div class="col-sm-6">
-                <input type="text" class="form-control" placeholder="NAME" id="name" name="name">
+                <input type="text" class="form-control" placeholder="NAME" id="name" name="name" value="${item.name}">
             </div>
         </div>
         <div class="form-group">
             <label  class="col-sm-2 control-label">CATEGORY</label>
             <div class="col-sm-3">
-                <select class="form-control">
-                    <option>Fine Arts</option>
+                <select class="form-control" name="category" id="category">
+                    <option value="1">Antique & Collectibles</option>
+                    <option value="2">Fine Arts</option>
+                    <option value="3">Watches</option>
+                    <option value="4">Decorative Arts & Design</option>
+                    <option value="5">Jewelry & Fashion</option>
+                    <option value="6">Asian Art & Non-European Cultures</option>
+                    <option value="7">Post-War & Contemporary Art</option>
+                    <option value="8">Clocks & Technology</option>
+                    <option value="9">Silver & Vertu</option>
+                    <option value="10">Manuscripts,Books & Archives</option>
+                    <option value="11">Rugs & Carpets</option>
                 </select>
             </div>
 
@@ -51,12 +62,12 @@
             <div class="col-sm-3 ">
                 <div class="input-group">
                     <div class="input-group-addon">USD</div>
-                    <input type="text" class="form-control" placeholder="LOWEST EST" name="estimateMin" id="estimateMin">
+                    <input type="text" class="form-control" value="${item.estimateMin}" placeholder="LOWEST EST" name="estimateMin" id="estimateMin">
                 </div></div>
             <div class="col-sm-3 ">
                 <div class="input-group">
                     <div class="input-group-addon">USD</div>
-                    <input type="text" class="form-control" PLACEHOLDER="HIGHEST ESG" name="estimateMax" id="estimateMax" >
+                    <input type="text" class="form-control" value="${item.estimateMax}"  PLACEHOLDER="HIGHEST ESG" name="estimateMax" id="estimateMax" >
                 </div></div>
         </div>
 
@@ -65,7 +76,7 @@
             <div class="col-sm-3 ">
                 <div class="input-group">
                     <div class="input-group-addon">USD</div>
-                    <input type="text" class="form-control" name="reservePrice" id="reservePrice" >
+                    <input type="text" class="form-control" value="${item.reservePrice}" name="reservePrice" id="reservePrice" >
                 </div></div>
         </div>
         <div class="form-group">
@@ -73,21 +84,21 @@
             <div class="col-sm-3 ">
                 <div class="input-group">
                     <div class="input-group-addon">USD</div>
-                    <input type="text" class="form-control" name="startingPrice" id="startingPrice"  >
+                    <input type="text" class="form-control" value="${item.startingPrice}" name="startingPrice" id="startingPrice"  >
                 </div></div>
         </div>
 
         <div class="form-group">
             <label  class="col-sm-2 control-label">PICTURES</label>
             <div class="col-sm-9">
-                <input type="file" name="uploadfile" id="uploadfile" multiple class="file-loading" />
+                <input type="file" name="uploadfile" id="uploadfile"  multiple class="file-loading" />
             </div>
         </div>
 
         <div class="form-group">
             <label  class="col-sm-2 control-label">DESCRIPTION</label>
             <div class="col-sm-9">
-                <textarea class="form-control" rows="3" id="description" name="description"></textarea>
+                <textarea class="form-control" rows="3" id="description" name="description">${item.description}</textarea>
             </div>
         </div>
     </form>
@@ -124,7 +135,12 @@
             validateInitialCount:true,
             previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
             msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
-        });
+    });
+
+
+        //设置下拉框
+        $("#category").val('${item.category}');
+
     });
 
     function submit(){

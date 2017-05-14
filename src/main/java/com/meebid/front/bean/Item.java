@@ -1,5 +1,7 @@
 package com.meebid.front.bean;
 
+import java.math.BigDecimal;
+
 /**
  * Created by gaoyang on 17/5/7.
  */
@@ -7,10 +9,20 @@ public class Item {
     String name;
     String id;
     String thumbImg;
-    String startingPrice;
-    String lotNum;
-    String state;
-    String popular;
+    BigDecimal startingPrice;
+    BigDecimal estimateMin;
+    BigDecimal estimateMax;
+    Integer lotNum;
+    Integer state;
+    String category;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public String getName() {
         return name;
@@ -36,37 +48,43 @@ public class Item {
         this.thumbImg = thumbImg;
     }
 
-    public String getStartingPrice() {
+    public BigDecimal getStartingPrice() {
         return startingPrice;
     }
 
-    public void setStartingPrice(String startingPrice) {
+    public void setStartingPrice(BigDecimal startingPrice) {
         this.startingPrice = startingPrice;
     }
 
-    public String getLotNum() {
+    public BigDecimal getEstimateMin() {
+        return estimateMin;
+    }
+
+    public void setEstimateMin(BigDecimal estimateMin) {
+        this.estimateMin = estimateMin;
+    }
+
+    public BigDecimal getEstimateMax() {
+        return estimateMax;
+    }
+
+    public void setEstimateMax(BigDecimal estimateMax) {
+        this.estimateMax = estimateMax;
+    }
+
+    public Integer getLotNum() {
         return lotNum;
     }
 
-    public void setLotNum(String lotNum) {
+    public void setLotNum(Integer lotNum) {
         this.lotNum = lotNum;
     }
 
-    public String getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(Integer state) {
         this.state = state;
     }
-
-    public String getPopular() {
-        return popular;
-    }
-
-    public void setPopular(String popular) {
-        this.popular = popular;
-    }
-
-
 }
