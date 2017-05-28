@@ -99,6 +99,35 @@ public class AuctionHouseController {
     @RequestMapping(value = "/listpaticipants")
     public String listpaticipants(HttpServletRequest request,
                                          HttpServletResponse response) {
+        String auctionId=  ConvertUtil.safeToString(request.getParameter("auctionId"),"");
+        String status=  ConvertUtil.safeToString(request.getParameter("status"),"");
+
+        String page=StringUtil.safeToString(request.getParameter("page"),"1");
+        String pageSize=StringUtil.safeToString(request.getParameter("pageSize"),"10");
+
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+        form.set("auctionId", auctionId);
+        form.set("pageSize", pageSize);
+        form.set("page", page);
+        form.set("status", status);
+        ResponseEntity<SearchTemplate<Paticipant>> res = restOps.exchange(
+                RESTURL+"auction/participate-list",
+                HttpMethod.POST,
+                new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
+                new ParameterizedTypeReference<SearchTemplate<Paticipant>>() {});
+        request.setAttribute("list",res.getBody().getDateList());
+        request.setAttribute("page", PageUtil.getPage(Integer.valueOf(page),Integer.parseInt(pageSize),res.getBody().getTotalCount()));
+
+        request.setAttribute("list",res.getBody().getDateList());
+        request.setAttribute("list",res.getBody().getDateList());
+        request.setAttribute("list",res.getBody().getDateList());
+        request.setAttribute("list",res.getBody().getDateList());
+
+
+        //拍卖会ID
+        request.setAttribute("auctionId",ConvertUtil.safeToString(request.getParameter("auctionId"),""));
+
         return "/auctionhouse/listpaticipants";
     }
 

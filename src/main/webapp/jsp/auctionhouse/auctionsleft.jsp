@@ -27,7 +27,7 @@
     </ul>
 </div>
 <form action="" method="post" name="tourl" id="tourl">
-    <input id="auctionid" name="auctionid" type="hidden" value="">
+    <input id="auctionId" name="auctionId" type="hidden" value="${auctionId}">
 </form>
 <!--left menu end-->
 <script>
