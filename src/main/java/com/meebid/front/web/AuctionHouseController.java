@@ -73,6 +73,16 @@ public class AuctionHouseController {
     @RequestMapping(value = "/showlistauctiondetail")
     public String showlistauctiondetail(HttpServletRequest request,
                                     HttpServletResponse response) {
+        String auctionId=  ConvertUtil.safeToString(request.getParameter("auctionId"),"");
+
+        ResponseEntity<AuctionDetail> responseEntity = null;
+        responseEntity = restOps.exchange(
+                RESTURL+"auction/detail?auctionId={auctionId}",
+                HttpMethod.GET,
+                null,
+                AuctionDetail.class,auctionId);
+        request.setAttribute("detail",responseEntity.getBody());
+
         return "/auctionhouse/listauctiondetail";
     }
 
@@ -103,7 +113,7 @@ public class AuctionHouseController {
         String status=  ConvertUtil.safeToString(request.getParameter("status"),"");
 
         String page=StringUtil.safeToString(request.getParameter("page"),"1");
-        String pageSize=StringUtil.safeToString(request.getParameter("pageSize"),"10");
+        String pageSize=StringUtil.safeToString(request.getParameter("pageSize"),"12");
 
 
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
@@ -119,10 +129,13 @@ public class AuctionHouseController {
         request.setAttribute("list",res.getBody().getDateList());
         request.setAttribute("page", PageUtil.getPage(Integer.valueOf(page),Integer.parseInt(pageSize),res.getBody().getTotalCount()));
 
-        request.setAttribute("list",res.getBody().getDateList());
-        request.setAttribute("list",res.getBody().getDateList());
-        request.setAttribute("list",res.getBody().getDateList());
-        request.setAttribute("list",res.getBody().getDateList());
+        request.setAttribute("ALL",res.getBody().getTotalCount());
+        request.setAttribute("PENDING",res.getBody().getPendingCount());
+        request.setAttribute("APPORVED",res.getBody().getApprovedCount());
+        request.setAttribute("REJECTED",res.getBody().getRejectedCount());
+        request.setAttribute("status",status);
+
+        request.setAttribute("a"+status,"active");
 
 
         //拍卖会ID
@@ -467,7 +480,28 @@ public class AuctionHouseController {
         return "";
     }
 
+    @RequestMapping(value = "/updatepaticipant",method = RequestMethod.POST)
+    @ResponseBody
+    public Object updatepaticipant(HttpServletRequest request, HttpServletResponse response){
 
+        String participatesId = StringUtil.safeToString(request.getParameter("participatesId"),"");
+        String status = StringUtil.safeToString(request.getParameter("status"),"");
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
+        form.set("participatesId", participatesId);
+        form.set("status", status);
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = restOps.exchange(
+                    RESTURL+"auction/participate-approve",
+                    HttpMethod.POST,
+                    new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
+                    String.class);
+        } catch (ErrorException e){
+            return e.getErrorBean().getMessage();
+        }
+        return "";
+    }
 
     @RequestMapping(value = "/deleteitem",method = RequestMethod.POST)
     @ResponseBody

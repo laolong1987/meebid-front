@@ -30,21 +30,16 @@
     <div class="">
         <form role="form">
             <div class="form-group">
-                <label for="name" class="control-label">AUCTION NAME</label>
-                <input type="text" class="form-control" id="name">
-            </div>
-            <div class="form-group">
-                <label for="name" class="control-label">BID INCREMENTS</label>
-
+                <label  class="control-label">BID INCREMENTS</label>
                 <div class="row">
                     <div class="col-sm-4">
-                        <label for="name" class="control-label">From</label>
+                        <label class="control-label">From</label>
                     </div>
                     <div class="col-sm-4">
-                        <label for="name" class="control-label">To</label>
+                        <label  class="control-label">To</label>
                     </div>
                     <div class="col-sm-4">
-                        <label for="name" class="control-label">Increment</label>
+                        <label  class="control-label">Increment</label>
                     </div>
                 </div>
                 <div class="row">
@@ -65,7 +60,7 @@
 
             </div>
             <div class="form-group">
-                <label for="name" class="control-label">BUYER PREMIUM</label>
+                <label  class="control-label">BUYER PREMIUM</label>
 
                 <div class="input-group col-sm-4">
                     <input type="text" class="form-control" name="estimateMin" id="estimateMin">
@@ -75,11 +70,11 @@
             </div>
 
             <div class="form-group">
-                <label for="name" class="control-label">PAYMENT OPTIONS</label>
+                <label  class="control-label">PAYMENT OPTIONS</label>
                 <textarea class="form-control" rows="3" name="desc"></textarea>
             </div>
             <div class="form-group">
-                <label for="name" class="control-label">SHIPPING</label>
+                <label  class="control-label">SHIPPING</label>
                 <textarea class="form-control" rows="3" name="desc"></textarea>
             </div>
 

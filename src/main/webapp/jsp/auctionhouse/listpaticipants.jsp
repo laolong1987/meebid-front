@@ -20,7 +20,7 @@
 
         .biaoqian {
             position: relative;
-            left: 200px;
+            left: 180px;
         }
     </style>
 </head>
@@ -48,23 +48,22 @@
             </button>
         </div>
     </div>
-    <form action="listauctionitem" method="post" id="listform" name="listform">
-        <input type="hidden" value="" name="pageSize" id="pageSize">
-        <input type="hidden" value="" name="page" id="page">
+    <form action="listpaticipants" method="post" id="searchform" name="searchform">
         <input type="hidden" value="${auctionId}" name="auctionId" id="auctionId">
-        <input type="hidden" name="lotId" id="lotId">
+        <input type="hidden" name="status" id="status" value="" >
     </form>
 
     <div style="margin-top: 30px">
         <div class="btn-group">
-            <button type="button" onclick="search2('0')" class="btn btn-default ${a0}">ALL <span class="badge">0</span>
+            <button type="button" onclick="search2('')" class="btn btn-default ${a}">ALL
+                <span class="badge">${ALL}</span>
             </button>
-            <button type="button" onclick="search2('')" class="btn btn-default ${a}">PENDING <span
-                    class="badge">0</span></button>
-            <button type="button" onclick="search2('0')" class="btn btn-default ${a0}">APPORVED <span
-                    class="badge">0</span></button>
-            <button type="button" onclick="search2('0')" class="btn btn-default ${a0}">rejected <span
-                    class="badge">0</span></button>
+            <button type="button" onclick="search2('0')" class="btn btn-default ${a0}">PENDING <span
+                    class="badge">${PENDING}</span></button>
+            <button type="button" onclick="search2('1')" class="btn btn-default ${a1}">APPORVED<span
+                    class="badge">${APPORVED}</span></button>
+            <button type="button" onclick="search2('2')" class="btn btn-default ${a2}">REJECTED<span
+                    class="badge">${REJECTED}</span></button>
         </div>
     </div>
     <div style="margin-top: 30px">
@@ -72,26 +71,32 @@
             <%--<div class="row">--%>
             <c:forEach items="${list}" var="l">
                 <div class="col-sm-4">
-                    <div class="paticipantbox" onclick="showdetail()">
-
                         <c:if test="${l.status eq 0}">
-                             <span class="label label-default biaoqian">
+                            <div class="paticipantbox" onclick="showdetail('${l.id}')">
+                             <span class="label label-default biaoqian" id="${l.id}" >
                             PENDING
                              </span>
                         </c:if>
                         <c:if test="${l.status eq 1}">
-                            <span class="label label-success biaoqian">
+                                <div class="paticipantbox">
+                            <span class="label label-success biaoqian" id="${l.id}">
                             APPROVED
                             </span>
                         </c:if>
                         <c:if test="${l.status eq 2}">
-                            <span class="label label-danger biaoqian">
+                                    <div class="paticipantbox" >
+                            <span class="label label-danger biaoqian" id="${l.id}">
                             REJECTED
                             </span>
                         </c:if>
                         </span>
                         <div class="row" style="margin-top: 10px">
-                            <img src="${ctx}/static/images/noimg.png" class="col-sm-4" style="width:70px;">
+                            <c:if test="${empty l.headImg}">
+                                <img src="${ctx}/static/images/noimg.png" class="col-sm-4" style="width:70px;">
+                            </c:if>
+                            <c:if test="${!empty l.headImg}">
+                                <img src="${l.headImg}" class="col-sm-4" style="width:70px;">
+                            </c:if>
                             <span class="col-sm-8">${l.userName}</span>
                         </div>
                         <div style="margin-top: 10px;margin-bottom: 10px">
@@ -107,19 +112,19 @@
         <div class="text-center">
         <ul class="pagination">
         <c:if test="${page.page > 10}">
-        <li><a href="listmessage?page=${page.page-10}">&laquo;</a></li>
+        <li><a href="listpaticipants?page=${page.page-10}">&laquo;</a></li>
         </c:if>
         <c:forEach begin="${page.beginpage}" end="${page.endpage}" var="i">
         <li
         <c:if test="${i eq page.page}">
         class="active"
         </c:if>
-        ><a href="listmessage?page=${i}">${i}</a></li>
+        ><a href="listpaticipants?page=${i}">${i}</a></li>
         </c:forEach>
         <c:if test="${page.pagetotal-page.page >10}">
-        <li><a href="listmessage?page=${page.page+10}">&raquo;</a></li>
+        <li><a href="listpaticipants?page=${page.page+10}">&raquo;</a></li>
         </c:if>
-        <li><a href="javascript:;" class="pagejump" onclick="topage('listmessage')"
+        <li><a href="javascript:;" class="pagejump" onclick="topage('listpaticipants')"
         style="margin-left: 10px;">JUMP</a>
         </li>
         <li><input type="text" class="pagejumptext" id="jumppage" name="jumppage"
@@ -141,8 +146,13 @@
             </div>
             <div class="modal-body" style="text-align: center">
                <%--approval--%>
-                   <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="reply()">APPROVE</button>
-                   <button type="button" class="btn btn-default" onclick="mark()">REJECTED</button>
+                <input type="hidden" id="paticipantid" name="paticipantid">
+                   <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updatepaticipant('1')">APPROVE</button>
+
+            </div>
+            <div class="modal-footer" style="text-align: center">
+                <textarea class="form-control" id="content" name="content" placeholder="Reasons"></textarea>
+                <button type="button" class="btn btn-default" onclick="updatepaticipant('2')">REJECTED</button>
             </div>
             <%--<div class="modal-footer" style="text-align: center">--%>
                <%----%>
@@ -154,9 +164,44 @@
 <script>
     var auctionId = '${auctionId}';
 
-    function showdetail(){
-        $('#detail').modal('show');
+    function search2(status){
+        $("#status").val(status);
+        $("#searchform").submit();
     }
+
+    function showdetail(id){
+        $('#detail').modal('show');
+        $("#paticipantid").val(id);
+    }
+
+    function updatepaticipant(status){
+        var content= $("#content").val();
+        if(2==status){
+            if(''==content){
+                alert('Reasons');
+                return
+            }
+        }
+        var id = $("#paticipantid").val();
+        $.ajax({
+            type : "POST",
+            url : "updatepaticipant",
+            data : {participatesId:id,status:status},
+            dataType : "text",
+            success : function(result) {
+//                if(1==status){
+//                    $("#"+id).removeClass().addClass("label").addClass("label-success").addClass("biaoqian");
+//                    $("#"+id).text("APPROVED");
+//                }else if(2==status){
+//                    $("#"+id).removeClass().addClass("label").addClass("label-danger").addClass("biaoqian");
+//                    $("#"+id).text("REJECTED");
+//                }
+                history.go(0);
+//                $('#detail').modal('hide');
+            }
+        });
+    }
+
 </script>
 </body>
 </html>

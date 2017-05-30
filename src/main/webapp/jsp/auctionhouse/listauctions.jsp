@@ -60,7 +60,7 @@
             </div>
             <div class="col-xs-8">
                 <ul class="list-unstyled">
-                    <li><B>${a.name}${a.status}</B></li>
+                    <li><B>${a.name}</B></li>
 
                     <li style="padding-top: 20px">
                         <fmt:setLocale value="en_US" scope="session"/>

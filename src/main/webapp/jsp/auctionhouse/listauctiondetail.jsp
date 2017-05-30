@@ -36,26 +36,26 @@
     <form role="form">
         <div class="form-group">
              <label for="name" class="control-label">AUCTION NAME</label>
-            <input type="text" class="form-control" id="name">
+            <input type="text" class="form-control" id="name" name="name" value="${detail.name}">
         </div>
         <div class="form-group">
             <label for="name" class="control-label">LOCATION</label>
             <div class="row">
                 <div class="col-sm-4">
-                    <input type="text" class="form-control"  placeholder="CITY" id="city" name="city">
+                    <input type="text" class="form-control"  placeholder="CITY" id="city" name="city" value="${detail.city}">
                 </div>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control"  placeholder="STATE" id="state" name="state">
+                    <input type="text" class="form-control"  placeholder="STATE" id="state" name="state" value="${detail.state}">
                 </div>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control"  placeholder="COUNTRY" id="country" name="country">
+                    <input type="text" class="form-control"  placeholder="COUNTRY" id="country" name="country" value="${detail.country}">
                 </div>
             </div>
-            <input type="text" class="form-control" style="margin-top: 20px" id="name">
+            <input type="text" class="form-control" style="margin-top: 20px" id="" name="" placeholder="ADDRESS OF THIS AUCTION">
         </div>
         <div class="form-group">
             <label for="name" class="control-label">TIMEZONE</label>
-            <input type="text" class="form-control" id="name">
+            <input type="text" class="form-control" id="" name="" value="${detail.timezone}">
         </div>
         <div class="form-group">
             <label for="name" class="control-label">START TIME</label>

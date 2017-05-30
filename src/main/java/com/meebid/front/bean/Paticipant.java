@@ -12,8 +12,18 @@ public class Paticipant {
     private String userId;
     private String anticipatedAmount;
     private String status;
+    private String headImg;
     private Date createtime;
     private Date updatetime;
+
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
+    }
 
     public String getId() {
         return id;
