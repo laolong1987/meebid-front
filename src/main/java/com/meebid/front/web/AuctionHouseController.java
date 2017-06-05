@@ -83,6 +83,9 @@ public class AuctionHouseController {
                 AuctionDetail.class,auctionId);
         request.setAttribute("detail",responseEntity.getBody());
 
+        //拍卖会ID
+        request.setAttribute("auctionId",ConvertUtil.safeToString(request.getParameter("auctionId"),""));
+
         return "/auctionhouse/listauctiondetail";
     }
 

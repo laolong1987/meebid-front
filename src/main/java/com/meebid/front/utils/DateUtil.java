@@ -4,9 +4,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 /**
  * 日期格式工具
@@ -329,8 +327,8 @@ public class DateUtil {
 	/**
 	 * 得到某年1月1日
 	 * 
-	 * @param year
-	 * @param week
+	 * @param
+	 * @param
 	 * @return
 	 */
 	public static Date getFirstDayOfThisYear() {
@@ -361,7 +359,7 @@ public class DateUtil {
 	/**
 	 * 取得当前月份的最后一天
 	 * 
-	 * @param date
+	 * @param
 	 * @return
 	 */
 	public static Date getLatDayOfMonth(int Month) {
@@ -460,9 +458,35 @@ public class DateUtil {
 		return formatDate;
 	}
 
+	/**
+	 * 获取所有的时区编号. <br>
+	 * 排序规则:按照ASCII字符的正序进行排序. <br>
+	 * 排序时候忽略字符大小写.
+	 *
+	 * @return 所有的时区编号(时区编号已经按照字符[忽略大小写]排序).
+	 */
+	public static String[] fecthAllTimeZoneIds() {
+		Vector v = new Vector();
+		String[] ids = TimeZone.getAvailableIDs();
+		for (int i = 0; i < ids.length; i++) {
+			v.add(ids[i]);
+		}
+		java.util.Collections.sort(v, String.CASE_INSENSITIVE_ORDER);
+		v.copyInto(ids);
+		v = null;
+		return ids;
+	}
+
+
 	public static void main(String[] args) {
-		System.out.println(getDay());
-		System.out.println(getNumOfWeekStr(null));
+
+//		TimeZone.getAvailableIDs();
+//		String[] strings = SimpleTimeZone.getAvailableIDs();
+//		System.out.println(SimpleTimeZone.getTimeZone(ZoneId.ofOffset("GMT", ZoneOffset.ofHours(8))));
+//		System.out.println(SimpleTimeZone.getTimeZone(ZoneId.ofOffset("GMT", ZoneOffset.ofHoursMinutes(8, 30))));
+
+//		DateTimeZone zone=DateTimeZone.forOffsetHours(8);
+
 	}
 	/**
 	 * 获取当天属本月的天数
