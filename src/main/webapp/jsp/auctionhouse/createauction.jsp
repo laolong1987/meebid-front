@@ -41,100 +41,67 @@
         <div class="form-group">
             <label  class="col-sm-2 control-label">LOCATION</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control"  placeholder="CITY" id="city" name="city">
+                <select name="countryId" class="countries order-alpha presel-byip form-control" id="countryId">
+                    <option value="">Select Country</option>
+                </select>
             </div>
             <div class="col-sm-3">
-                <input type="text" class="form-control"  placeholder="STATE" id="state" name="state">
+                <select name="stateId" class="states order-alpha form-control" id="stateId">
+                    <option value="">Select State</option>
+                </select>
             </div>
             <div class="col-sm-3">
-                <input type="text" class="form-control"  placeholder="COUNTRY" id="country" name="country">
+                <select name="cityId" class="cities order-alpha form-control" id="cityId" >
+                    <option value="">Select City</option>
+                </select>
             </div>
         </div>
         <div class="form-group">
             <label  class="col-sm-2 control-label">TIMEZONE</label>
-            <div class="col-sm-9">
-                <input type="text" class="form-control" id="timezone" name="timezone" >
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label  class="col-sm-2 control-label">START DATE</label>
-            <div class="col-sm-3">
-                <select class="form-control" name="month" id="month" >
-                    <option value="1" >1</option>
-                    <option value="2" >2</option>
-                    <option value="3" >3</option>
-                    <option value="4" >4</option>
-                    <option value="5" >5</option>
-                    <option value="6" >6</option>
-                    <option value="7" >7</option>
-                    <option value="8" >8</option>
-                    <option value="9" >9</option>
-                    <option value="10" >10</option>
-                    <option value="11" >11</option>
-                    <option value="12" >12</option>
-                </select>
-            </div>
-            <div class="col-sm-3">
-                <select class="form-control" name="day" id="day" >
-                    <option value="1" >1</option>
-                    <option value="2" >2</option>
-                    <option value="3" >3</option>
-                    <option value="4" >4</option>
-                    <option value="5" >5</option>
-                    <option value="6" >6</option>
-                    <option value="7" >7</option>
-                    <option value="8" >8</option>
-                    <option value="9" >9</option>
-                    <option value="10" >10</option>
-                    <option value="11" >11</option>
-                    <option value="12" >12</option>
-                    <option value="13" >13</option>
-                    <option value="14" >14</option>
-                    <option value="15" >15</option>
-                    <option value="16" >16</option>
-                    <option value="17" >17</option>
-                    <option value="18" >18</option>
-                    <option value="19" >19</option>
-                    <option value="20" >20</option>
-                    <option value="21" >21</option>
-                    <option value="22" >22</option>
-                    <option value="23" >23</option>
-                    <option value="24" >24</option>
-                    <option value="25" >25</option>
-                    <option value="26" >26</option>
-                    <option value="27" >27</option>
-                    <option value="28" >28</option>
-                    <option value="29" >29</option>
-                    <option value="30" >30</option>
-                    <option value="31" >31</option>
-                </select>
-            </div>
-            <div class="col-sm-3">
-                <select class="form-control" name="year" id="year" >
-                    <option value="2017" >2017</option>
-                    <option value="2018" >2018</option>
-                    <option value="2019" >2019</option>
-                    <option value="2020" >2020</option>
+            <div class="col-sm-6">
+                <select class="form-control" name="timezone" id="timezone">
+                    <option value="0000" >Greenwich Mean Time	GMT</option>
+                    <option value="+0100" >European Central Time	GMT+1:00</option>
+                    <option value="+0200" >Eastern European Time	GMT+2:00</option>
+                    <option value="+0200" >(Arabic) Egypt Standard Time	GMT+2:00</option>
+                    <option value="+0300" >Eastern African Time	GMT+3:00</option>
+                    <option value="+0330" >Middle East Time	GMT+3:30</option>
+                    <option value="+0400" >Near East Time	GMT+4:00</option>
+                    <option value="+0500" >Pakistan Lahore Time	GMT+5:00</option>
+                    <option value="+0530" >India Standard Time	GMT+5:30</option>
+                    <option value="+0600" >Bangladesh Standard Time	GMT+6:00</option>
+                    <option value="+0700" >Vietnam Standard Time	GMT+7:00</option>
+                    <option value="+0800" >China Taiwan Time	GMT+8:00</option>
+                    <option value="+0900" >Japan Standard Time	GMT+9:00</option>
+                    <option value="+0930" >Australia Central Time	GMT+9:30</option>
+                    <option value="+1000" >Australia Eastern Time	GMT+10:00</option>
+                    <option value="+1100" >Solomon Standard Time	GMT+11:00</option>
+                    <option value="+1200" >New Zealand Standard Time	GMT+12:00</option>
+                    <option value="-1100" >Midway Islands Time	GMT-11:00</option>
+                    <option value="-1000" >Hawaii Standard Time	GMT-10:00</option>
+                    <option value="-0900" >Alaska Standard Time	GMT-9:00</option>
+                    <option value="-0800" >Pacific Standard Time	GMT-8:00</option>
+                    <option value="-0700" >Phoenix Standard Time	GMT-7:00</option>
+                    <option value="-0700" >Mountain Standard Time	GMT-7:00</option>
+                    <option value="-0600" >Central Standard Time	GMT-6:00</option>
+                    <option value="-0500" >Eastern Standard Time	GMT-5:00</option>
+                    <option value="-0500" >Indiana Eastern Standard Time	GMT-5:00</option>
+                    <option value="-0400" >Puerto Rico and US Virgin Islands Time	GMT-4:00</option>
+                    <option value="-0330" >Canada Newfoundland Time	GMT-3:30</option>
+                    <option value="-0300" >Argentina Standard Time	GMT-3:00</option>
+                    <option value="-0300" >Brazil Eastern Time	GMT-3:00</option>
+                    <option value="-0100" >Central African Time	GMT-1:00</option>
                 </select>
             </div>
         </div>
 
         <div class="form-group">
-            <label  class="col-sm-2 control-label">TIME</label>
+            <label  class="col-sm-2 control-label">START TIME</label>
             <div class="col-sm-3">
-                <select class="form-control" name="house" id="house" >
-                    <c:forEach begin="01" end="59" var="i" >
-                        <option value="${i}" >${i}</option>
-                    </c:forEach>
-                </select>
+                <input  type="text" readonly class="form-control form_datetime" name="date1" id="date1" value="">
             </div>
             <div class="col-sm-3">
-                <select class="form-control" name="minute" id="minute" >
-                    <c:forEach begin="01" end="59" var="i" >
-                        <option value="${i}" >${i}</option>
-                    </c:forEach>
-                </select>
+                <input  type="text" readonly class="form-control form_datetime2" name="date2" id="date2" value="">
             </div>
         </div>
 
@@ -146,13 +113,28 @@
         </div>
     </form>
     <div class="text-center">
-        <button class="btn btn-default">CANCEL</button>
+        <button class="btn btn-default"  onclick="window.history.back()" >CANCEL</button>
         <button class="btn btn-primary" style="width: 220px" onclick="submit()">CREATE</button>
     </div>
-
 </div>
-
 <script>
+
+    $(".form_datetime").datetimepicker({
+        format: "dd MM yyyy",
+        autoclose: true,
+        todayBtn: true,
+        minView:'month',
+        pickerPosition: "bottom-left"
+    });
+
+    $(".form_datetime2").datetimepicker({
+        format: "hh:ii",
+        autoclose: true,
+        startView:"day",
+        maxView:'day',
+        pickerPosition: "bottom-left"
+    });
+
     function submit(){
         $("#addform").submit();
     }

@@ -42,58 +42,64 @@
             <label for="name" class="control-label">LOCATION</label>
             <div class="row">
                 <div class="col-sm-4">
-                    <input type="text" class="form-control"  placeholder="CITY" id="city" name="city" value="${detail.city}">
+                    <select name="countryId" class="countries order-alpha presel-byip form-control" id="countryId" >
+                        <option value="">Select Country</option>
+                    </select>
                 </div>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control"  placeholder="STATE" id="state" name="state" value="${detail.state}">
+                    <select name="stateId" class="states order-alpha form-control" id="stateId">
+                        <option value="">Select State</option>
+                    </select>
                 </div>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control"  placeholder="COUNTRY" id="country" name="country" value="${detail.country}">
+                    <select name="cityId" class="cities order-alpha form-control" id="cityId">
+                        <option value="">Select City</option>
+                    </select>
                 </div>
             </div>
             <input type="text" class="form-control" style="margin-top: 20px" id="" name="" placeholder="ADDRESS OF THIS AUCTION">
         </div>
         <div class="form-group">
             <label for="name" class="control-label">TIMEZONE</label>
-            <select class="form-control" name="year" id="year" >
-                <option value="" >Greenwich Mean Time	GMT</option>
-                <option value="+1:00" >European Central Time	GMT+1:00</option>
-                <option value="+2:00" >Eastern European Time	GMT+2:00</option>
-                <option value="+2:00" >(Arabic) Egypt Standard Time	GMT+2:00</option>
-                <option value="+3:00" >Eastern African Time	GMT+3:00</option>
-                <option value="+3:30" >Middle East Time	GMT+3:30</option>
-                <option value="+4:00" >Near East Time	GMT+4:00</option>
-                <option value="+5:00" >Pakistan Lahore Time	GMT+5:00</option>
-                <option value="+5:30" >India Standard Time	GMT+5:30</option>
-                <option value="+6:00" >Bangladesh Standard Time	GMT+6:00</option>
-                <option value="+7:00" >Vietnam Standard Time	GMT+7:00</option>
-                <option value="+8:00" >China Taiwan Time	GMT+8:00</option>
-                <option value="+9:00" >Japan Standard Time	GMT+9:00</option>
-                <option value="+9:30" >Australia Central Time	GMT+9:30</option>
-                <option value="+10:00" >Australia Eastern Time	GMT+10:00</option>
-                <option value="+11:00" >Solomon Standard Time	GMT+11:00</option>
-                <option value="+12:00" >New Zealand Standard Time	GMT+12:00</option>
-                <option value="-11:00" >Midway Islands Time	GMT-11:00</option>
-                <option value="-10:00" >Hawaii Standard Time	GMT-10:00</option>
-                <option value="-9:00" >Alaska Standard Time	GMT-9:00</option>
-                <option value="-8:00" >Pacific Standard Time	GMT-8:00</option>
-                <option value="-7:00" >Phoenix Standard Time	GMT-7:00</option>
-                <option value="-7:00" >Mountain Standard Time	GMT-7:00</option>
-                <option value="-6:00" >Central Standard Time	GMT-6:00</option>
-                <option value="-5:00" >Eastern Standard Time	GMT-5:00</option>
-                <option value="-5:00" >Indiana Eastern Standard Time	GMT-5:00</option>
-                <option value="-4:00" >Puerto Rico and US Virgin Islands Time	GMT-4:00</option>
-                <option value="-3:30" >Canada Newfoundland Time	GMT-3:30</option>
-                <option value="-3:00" >Argentina Standard Time	GMT-3:00</option>
-                <option value="-3:00" >Brazil Eastern Time	GMT-3:00</option>
-                <option value="-1:00" >Central African Time	GMT-1:00</option>
+            <select class="form-control" name="timezone1" id="timezone1" style="width: 550px">
+                <option value="0000" >Greenwich Mean Time	GMT</option>
+                <option value="+0100" >European Central Time	GMT+1:00</option>
+                <option value="+0200" >Eastern European Time	GMT+2:00</option>
+                <option value="+0200" >(Arabic) Egypt Standard Time	GMT+2:00</option>
+                <option value="+0300" >Eastern African Time	GMT+3:00</option>
+                <option value="+0330" >Middle East Time	GMT+3:30</option>
+                <option value="+0400" >Near East Time	GMT+4:00</option>
+                <option value="+0500" >Pakistan Lahore Time	GMT+5:00</option>
+                <option value="+0530" >India Standard Time	GMT+5:30</option>
+                <option value="+0600" >Bangladesh Standard Time	GMT+6:00</option>
+                <option value="+0700" >Vietnam Standard Time	GMT+7:00</option>
+                <option value="+0800" >China Taiwan Time	GMT+8:00</option>
+                <option value="+0900" >Japan Standard Time	GMT+9:00</option>
+                <option value="+0930" >Australia Central Time	GMT+9:30</option>
+                <option value="+1000" >Australia Eastern Time	GMT+10:00</option>
+                <option value="+1100" >Solomon Standard Time	GMT+11:00</option>
+                <option value="+1200" >New Zealand Standard Time	GMT+12:00</option>
+                <option value="-1100" >Midway Islands Time	GMT-11:00</option>
+                <option value="-1000" >Hawaii Standard Time	GMT-10:00</option>
+                <option value="-0900" >Alaska Standard Time	GMT-9:00</option>
+                <option value="-0800" >Pacific Standard Time	GMT-8:00</option>
+                <option value="-0700" >Phoenix Standard Time	GMT-7:00</option>
+                <option value="-0700" >Mountain Standard Time	GMT-7:00</option>
+                <option value="-0600" >Central Standard Time	GMT-6:00</option>
+                <option value="-0500" >Eastern Standard Time	GMT-5:00</option>
+                <option value="-0500" >Indiana Eastern Standard Time	GMT-5:00</option>
+                <option value="-0400" >Puerto Rico and US Virgin Islands Time	GMT-4:00</option>
+                <option value="-0330" >Canada Newfoundland Time	GMT-3:30</option>
+                <option value="-0300" >Argentina Standard Time	GMT-3:00</option>
+                <option value="-0300" >Brazil Eastern Time	GMT-3:00</option>
+                <option value="-0100" >Central African Time	GMT-1:00</option>
             </select>
         </div>
         <div class="form-group">
             <label for="name" class="control-label">START TIME</label>
             <div class="row">
                 <div class="col-sm-4">
-                    <input  type="text" readonly class="form-control form_datetime" value="">
+                    <input  type="text" readonly class="form-control form_datetime" name="date1" value="">
                 </div>
                 <div class="col-sm-4">
                     <input  type="text" readonly class="form-control form_datetime2" value="">
@@ -128,27 +134,63 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="">New Exhibition</h4>
+                <h4 class="modal-title" >New Exhibition</h4>
             </div>
             <div class="modal-body">
                 <div class="container">
-                <form class="form-horizontal" role="form" id="addform" name="addform" method="post" action="addmessage">
-                    <input type="hidden" id="recipients" name="recipients" >
+                <form class="form-horizontal" role="form" id="addform" name="addform" method="post" action="addExhibition">
+                    <input type="hidden" id="auctionId" name="auctionId" value="${auctionId}" >
                     <div class="form-group">
                         <label for="name" class="control-label">LOCATION</label>
-                        <input type="text" class="form-control" style="width: 550px" id="">
+                        <input type="text" name="exhibitionAddress" id="exhibitionAddress" class="form-control" style="width: 550px" >
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label">TIMEZONE</label>
+                        <select class="form-control" name="timezone2" id="timezone2" style="width: 550px">
+                            <option value="0000" >Greenwich Mean Time	GMT</option>
+                            <option value="+0100" >European Central Time	GMT+1:00</option>
+                            <option value="+0200" >Eastern European Time	GMT+2:00</option>
+                            <option value="+0200" >(Arabic) Egypt Standard Time	GMT+2:00</option>
+                            <option value="+0300" >Eastern African Time	GMT+3:00</option>
+                            <option value="+0330" >Middle East Time	GMT+3:30</option>
+                            <option value="+0400" >Near East Time	GMT+4:00</option>
+                            <option value="+0500" >Pakistan Lahore Time	GMT+5:00</option>
+                            <option value="+0530" >India Standard Time	GMT+5:30</option>
+                            <option value="+0600" >Bangladesh Standard Time	GMT+6:00</option>
+                            <option value="+0700" >Vietnam Standard Time	GMT+7:00</option>
+                            <option value="+0800" >China Taiwan Time	GMT+8:00</option>
+                            <option value="+0900" >Japan Standard Time	GMT+9:00</option>
+                            <option value="+0930" >Australia Central Time	GMT+9:30</option>
+                            <option value="+1000" >Australia Eastern Time	GMT+10:00</option>
+                            <option value="+1100" >Solomon Standard Time	GMT+11:00</option>
+                            <option value="+1200" >New Zealand Standard Time	GMT+12:00</option>
+                            <option value="-1100" >Midway Islands Time	GMT-11:00</option>
+                            <option value="-1000" >Hawaii Standard Time	GMT-10:00</option>
+                            <option value="-0900" >Alaska Standard Time	GMT-9:00</option>
+                            <option value="-0800" >Pacific Standard Time	GMT-8:00</option>
+                            <option value="-0700" >Phoenix Standard Time	GMT-7:00</option>
+                            <option value="-0700" >Mountain Standard Time	GMT-7:00</option>
+                            <option value="-0600" >Central Standard Time	GMT-6:00</option>
+                            <option value="-0500" >Eastern Standard Time	GMT-5:00</option>
+                            <option value="-0500" >Indiana Eastern Standard Time	GMT-5:00</option>
+                            <option value="-0400" >Puerto Rico and US Virgin Islands Time	GMT-4:00</option>
+                            <option value="-0330" >Canada Newfoundland Time	GMT-3:30</option>
+                            <option value="-0300" >Argentina Standard Time	GMT-3:00</option>
+                            <option value="-0300" >Brazil Eastern Time	GMT-3:00</option>
+                            <option value="-0100" >Central African Time	GMT-1:00</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="name" class="control-label">VIEWING TIME</label>
                         <div class="row" style="width: 550px">
                             <div class="col-sm-5">
-                                <input  type="text" readonly class="form-control form_datetime" value="">
+                                <input  type="text" readonly class="form-control form_datetime" name="datetime1" value="">
                             </div>
                             <div class="col-sm-3">
-                                <input  type="text" readonly class="form-control form_datetime2" value="">
+                                <input  type="text" readonly class="form-control form_datetime2" name="datetime2" value="">
                             </div>
                             <div class="col-sm-3">
-                                <input  type="text" readonly class="form-control form_datetime2" value="">
+                                <input  type="text" readonly class="form-control form_datetime2" name="datetime3" value="">
                             </div>
                             <div class="col-sm-1">
                                 <div style="margin-top: 10px"><a class="glyphicon glyphicon-plus"></a></div>
@@ -162,8 +204,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
-                <button type="button" class="btn btn-primary" onclick="add()">CREATE</button>
+                <button  class="btn btn-default" data-dismiss="modal">CLOSE</button>
+                <button  class="btn btn-primary" onclick="addExhibition()">CREATE</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -175,7 +217,16 @@
 </form>
 
 <script>
-    addevent();
+
+
+
+    $(function(){
+        addevent();
+    });
+
+
+
+
 
     function addnewexhibition(){
         var d='';
@@ -236,6 +287,9 @@
         $('#add').modal('show');
     }
 
+    function addExhibition(){
+        $("#addform").submit();
+    }
 
 </script>
 </body>

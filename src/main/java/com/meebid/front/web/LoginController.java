@@ -78,7 +78,7 @@ public class LoginController {
             return "redirect:/login/";
         } else {
             request.getSession().setAttribute("username",responseEntity.getBody());
-            return "redirect:/auctionhouse/index";
+            return "redirect:/auctionhouse/listmessage";
         }
     }
 }

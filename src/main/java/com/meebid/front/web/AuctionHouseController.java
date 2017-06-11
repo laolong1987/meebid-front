@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by gaoyang on 16/2/28.
@@ -99,6 +100,8 @@ public class AuctionHouseController {
     @RequestMapping(value = "/showlistauctionsetting")
     public String showlistauctionsetting(HttpServletRequest request,
                                         HttpServletResponse response) {
+        //拍卖会ID
+        request.setAttribute("auctionId",ConvertUtil.safeToString(request.getParameter("auctionId"),""));
         return "/auctionhouse/listauctionsetting";
     }
 
@@ -160,15 +163,12 @@ public class AuctionHouseController {
         String name=request.getParameter("name");
         String exhibition= StringUtil.safeToString(request.getParameter("exhibition"),"0");
         String timezone= StringUtil.safeToString(request.getParameter("timezone"),"");
-        String month= StringUtil.safeToString(request.getParameter("month"),"");
-        String day= StringUtil.safeToString(request.getParameter("day"),"");
-        String year= StringUtil.safeToString(request.getParameter("year"),"");
-        String house= StringUtil.safeToString(request.getParameter("house"),"");
-        String minute= StringUtil.safeToString(request.getParameter("minute"),"");
+        String date1= StringUtil.safeToString(request.getParameter("date1"),"");
+        String date2= StringUtil.safeToString(request.getParameter("date2"),"");
         String desc= StringUtil.safeToString(request.getParameter("desc"),"");
-        String country= StringUtil.safeToString(request.getParameter("country"),"");
-        String state= StringUtil.safeToString(request.getParameter("state"),"");
-        String city= StringUtil.safeToString(request.getParameter("city"),"");
+        String country= StringUtil.safeToString(request.getParameter("countryId"),"");
+        String state= StringUtil.safeToString(request.getParameter("stateId"),"");
+        String city= StringUtil.safeToString(request.getParameter("cityId"),"");
 
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
         form.set("name", name);
@@ -177,14 +177,13 @@ public class AuctionHouseController {
         form.set("city", city);
         form.set("timezone", timezone);
         form.set("desc", desc);
-        form.set("start_time",year+"-"+month+"-"+day+" "+house+":"+minute+":00");
+        form.set("start_time",DateUtil.getDateFormatByUS(date1+" "+date2+":00"));
         form.set("sellerId",uid);
         form.set("status","0");
 
         ResponseEntity<String> responseEntity = null;
         try {
             responseEntity = restOps.exchange(RESTURL+"auction/create",
-
                     HttpMethod.POST,
                     new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
                     String.class);
@@ -525,4 +524,48 @@ public class AuctionHouseController {
         return "";
     }
 
+    @RequestMapping(value = "/addExhibition",method = RequestMethod.POST)
+    public Object addExhibition(HttpServletRequest request, HttpServletResponse response,RedirectAttributes attr){
+        String auctionId = StringUtil.safeToString(request.getParameter("auctionId"),"");
+        String exhibitionAddress = StringUtil.safeToString(request.getParameter("exhibitionAddress"),"");
+        String timezone = StringUtil.safeToString(request.getParameter("timezone2"),"");
+
+        String[] datetime1= request.getParameterValues("datetime1");
+        String[] datetime2= request.getParameterValues("datetime2");
+        String[] datetime3= request.getParameterValues("datetime3");
+
+        List<ExhibitionTime> exhibitionTimeList=new ArrayList<>();
+
+        for (int i=0;i<datetime1.length;i++){
+            String d1=datetime1[i];
+            String d2=datetime2[i];
+            String d3=datetime3[i];
+
+            ExhibitionTime exhibitionTime=new ExhibitionTime();
+            exhibitionTime.setExhibitionStartTime(DateUtil.getDateFormatByUS(d1+" "+d2+":00"));
+            exhibitionTime.setExhibitionEndTime(DateUtil.getDateFormatByUS(d1+" "+d3+":00"));
+            exhibitionTimeList.add(exhibitionTime);
+        }
+
+
+        MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
+        form.set("auctionId",auctionId);
+        form.set("exhibitionAddress",exhibitionAddress);
+        form.set("timezone",timezone);
+        form.set("exhibitionTime",exhibitionTimeList);
+
+        Exhibition exhibition=new Exhibition();
+        exhibition.setAuctionId(auctionId);
+        exhibition.setExhibitionAddress(exhibitionAddress);
+        exhibition.setTimezone(timezone);
+        exhibition.setExhibitionTime(exhibitionTimeList);
+        ResponseEntity<Exhibition> responseEntity = null;
+        try {
+            restOps.postForObject(RESTURL+"auction/addExhibition",exhibition,Exhibition.class);
+        } catch (ErrorException e){
+            return e.getErrorBean().getMessage();
+        }
+        attr.addAttribute("auctionId",ConvertUtil.safeToString(request.getParameter("auctionId"),""));
+        return "redirect:/auctionhouse/showlistauctiondetail";
+    }
 }

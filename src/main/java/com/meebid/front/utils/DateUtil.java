@@ -477,8 +477,20 @@ public class DateUtil {
 		return ids;
 	}
 
+	public static String getDateFormatByUS(String date){
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss", Locale.US);
+		try {
+			currentTime = formatter.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		String dateString = SimpleDateUserFormat(currentTime,"yyyy-MM-dd HH:mm:ss");
+		return dateString;
+	}
 
-	public static void main(String[] args) {
+
+	public static void main(String[] args) throws ParseException {
 
 //		TimeZone.getAvailableIDs();
 //		String[] strings = SimpleTimeZone.getAvailableIDs();
@@ -486,6 +498,15 @@ public class DateUtil {
 //		System.out.println(SimpleTimeZone.getTimeZone(ZoneId.ofOffset("GMT", ZoneOffset.ofHoursMinutes(8, 30))));
 
 //		DateTimeZone zone=DateTimeZone.forOffsetHours(8);
+
+		String date="01 June 2017 15:14:13";
+
+		Date currentTime = new Date();
+
+		SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss", Locale.US);
+		currentTime = formatter.parse(date);
+		String dateString = SimpleDateUserFormat(currentTime,"yyyy-MM-dd HH:mm:ss");
+		System.out.println(dateString);
 
 	}
 	/**
