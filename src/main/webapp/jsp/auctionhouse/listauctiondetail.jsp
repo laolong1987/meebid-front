@@ -10,6 +10,19 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        .selectworld{
+            opacity: 0;
+            filter: "alpha(opacity=0)";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            display: block;
+            z-index: 100;
+        }
+    </style>
 </head>
 <body>
 <!-- top start -->
@@ -42,19 +55,29 @@
             <label for="name" class="control-label">LOCATION</label>
             <div class="row">
                 <div class="col-sm-4">
-                    <select name="countryId" class="countries order-alpha presel-byip form-control" id="countryId" >
-                        <option value="">Select Country</option>
-                    </select>
+                    <div style="position: relative;">
+                        <select name="countryId" class="countries order-alpha presel-byip form-control selectworld" id="countryId" onchange="setvalue(this.value,'countryId2')" >
+                            <option value="">Select Country</option>
+                        </select>
+                        <input type="text" class="form-control" name="countryId2" id="countryId2">
+                    </div>
+
                 </div>
                 <div class="col-sm-4">
-                    <select name="stateId" class="states order-alpha form-control" id="stateId">
+                    <div style="position: relative;">
+                    <select name="stateId" class="states order-alpha form-control selectworld" id="stateId" onchange="setvalue(this.value,'stateId2')">
                         <option value="">Select State</option>
                     </select>
+                    <input type="text" class="form-control" name="stateId2" id="stateId2" >
+                    </div>
                 </div>
                 <div class="col-sm-4">
-                    <select name="cityId" class="cities order-alpha form-control" id="cityId">
+                    <div style="position: relative;">
+                    <select name="cityId" class="cities order-alpha form-control selectworld" id="cityId" onchange="setvalue(this.value,'cityId2')" >
                         <option value="">Select City</option>
                     </select>
+                    <input type="text" class="form-control" name="cityId2" id="cityId2">
+                        </div>
                 </div>
             </div>
             <input type="text" class="form-control" style="margin-top: 20px" id="" name="" placeholder="ADDRESS OF THIS AUCTION">
@@ -289,6 +312,17 @@
 
     function addExhibition(){
         $("#addform").submit();
+    }
+
+    function setvalue(value,name){
+        $("#"+name).val(value);
+        if('countryId2'==name){
+            $("#stateId2").val('');
+            $("#cityId2").val('');
+        }
+        if('stateId2'==name){
+            $("#cityId2").val('');
+        }
     }
 
 </script>
