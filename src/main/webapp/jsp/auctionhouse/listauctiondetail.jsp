@@ -238,7 +238,7 @@
     <input type="hidden" value="" name="pageSize" id="pageSize">
     <input type="hidden" value="" name="page" id="page">
 </form>
-
+<script type="text/javascript" src="${ctx}/static/js/countrystatecity.js"></script>
 <script>
 
 

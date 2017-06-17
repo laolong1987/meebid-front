@@ -30,7 +30,7 @@
             <button type="button" class="btn btn-primary" onclick="addnewitem()">
                 CREATE NEW ITEM
             </button>
-            <button type="button" class="btn btn-primary" onclick="updateMessageStateall()">
+            <button type="button" class="btn btn-primary" onclick="showupload()">
                 BULK UPLOAD
             </button>
         </div>
@@ -105,6 +105,48 @@
         <%-- 分页 结束--%>
     </div>
 </div>
+
+
+<div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" >BULK UPLOAD</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="uploadform" name="uploadform" action="uploadauctionitem" method="post" enctype="multipart/form-data">
+                    <input type="hidden"  name="auctionId"  value="${auctionId}"/>
+                    <div class="form-group">
+                        <div class="col-sm-11 form-span">
+                            <input type="file" name="file" id="file" accept=".xls"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <a href="" style="margin-left: 100px">DOWNLOAD TEMPLATE</a>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="submit()">UPLOAD</button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="uploadform2" name="uploadform2" action="uploadauctionitemzip" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="auctionId"  value="${auctionId}"/>
+                    <div class="form-group">
+                        <div class="col-sm-11 form-span">
+                            <input type="file" name="file2" id="file2" accept=".zip"  />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="submit2()">UPLOAD ZIP</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
 <script>
     var auctionId = '${auctionId}';
 
@@ -128,6 +170,30 @@
                 history.go(0);
             }
         });
+    }
+
+    function showupload(){
+        $("#upload").modal('show');
+    }
+
+    function submit() {
+        var file=$("#file").val();
+        if(""==file){
+            alert("请提交数据");
+            return
+        }
+        $("#uploadform").submit();
+
+    }
+
+    function submit2() {
+        var file=$("#file2").val();
+        if(""==file){
+            alert("请提交数据");
+            return
+        }
+        $("#uploadform2").submit();
+
     }
 
 </script>

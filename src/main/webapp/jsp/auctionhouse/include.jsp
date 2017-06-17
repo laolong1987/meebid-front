@@ -19,4 +19,4 @@
 <script type="text/javascript" src="${ctx}/static/js/bootstrap-switch.js"></script>
 <script type="text/javascript" src='${ctx}/static/js/base.js'></script>
 <script type="text/javascript" src='${ctx}/static/js/bootstrap-datetimepicker.js'></script>
-<script type="text/javascript" src="${ctx}/static/js/countrystatecity.js"></script>
+

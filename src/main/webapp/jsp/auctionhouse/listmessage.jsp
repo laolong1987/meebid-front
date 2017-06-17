@@ -154,7 +154,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-11 form-span">
-                            <span  id="sendtext" style="margin-left: 100px"></span>
+                            <span  id="sendtext" style="margin-left: 50px"></span>
                         </div>
                     </div>
                 </form>

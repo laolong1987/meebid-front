@@ -4,6 +4,7 @@ import com.meebid.front.bean.*;
 import com.meebid.front.exception.ErrorException;
 import com.meebid.front.service.UploadService;
 import com.meebid.front.utils.*;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -13,13 +14,14 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -268,6 +270,80 @@ public class AuctionHouseController {
             return "redirect:/auctionhouse/listauctionitem";
         }
     }
+
+    /**
+     * 批量上传EXL
+     * @param request
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/uploadauctionitem")
+    public String uploadauctionitem(HttpServletRequest request,HttpServletResponse response,
+                                    @RequestParam("file") CommonsMultipartFile file, RedirectAttributes attr) {
+        String auctionId=ConvertUtil.safeToString(request.getParameter("auctionId"),"");
+        if (!file.isEmpty()) {
+            //获取文件名
+            String name = file.getOriginalFilename();
+            //处理EXCEL
+            ExcelRead readExcel = new ExcelRead();
+            //获得解析excel方法
+            Workbook wb = readExcel.getExcelInfo(name, file);
+            Map<String, Object> mapList = readExcel.readComplainValue(wb);
+            Set<String> set = mapList.keySet();
+            for (Iterator<String> iter = set.iterator(); iter.hasNext(); ) {
+                String key = (String) iter.next();
+                @SuppressWarnings("unchecked")
+                Map<String, String> listStr = (Map<String, String>) mapList.get(key);
+                int source = 0;
+            }
+        }
+
+
+        attr.addAttribute("auctionId",ConvertUtil.safeToString(request.getParameter("auctionId"),""));
+        return "redirect:/auctionhouse/listauctionitem";
+    }
+
+    /**
+     * 批量上传ZIP
+     * @param request
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/uploadauctionitemzip")
+    public String uploadauctionitemzip(HttpServletRequest request,HttpServletResponse response,
+                                       @RequestParam("file2") MultipartFile file, RedirectAttributes attr) {
+        String auctionId=ConvertUtil.safeToString(request.getParameter("auctionId"),"");
+        /**构建保存的目录**/
+        String tmpPathDir = "/file/"+auctionId;
+        String tmpRealPathDir = request.getSession().getServletContext().getRealPath(tmpPathDir);
+        /**根据真实路径创建目录**/
+        File tmpSaveFile = new File(tmpRealPathDir);
+        if (!tmpSaveFile.exists())
+            tmpSaveFile.mkdirs();
+        String fileuuid = UUID.randomUUID().toString();
+        String fileName = tmpRealPathDir + File.separator + fileuuid;
+
+        File transferred = new File(fileName);
+        try {
+            file.transferTo(transferred);
+            //解压缩文件
+            ZipUtil.unzip(fileName);
+            String [] fname = ZipUtil.getFileName(tmpRealPathDir);
+
+            //获取现在的所有拍品信息
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        attr.addAttribute("auctionId",ConvertUtil.safeToString(request.getParameter("auctionId"),""));
+        return "redirect:/auctionhouse/listauctionitem";
+    }
+
+
 
     /**
      * 拍品列表页面

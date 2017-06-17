@@ -117,6 +117,7 @@
         <button class="btn btn-primary" style="width: 220px" onclick="submit()">CREATE</button>
     </div>
 </div>
+<script type="text/javascript" src="${ctx}/static/js/countrystatecity.js"></script>
 <script>
 
     $(".form_datetime").datetimepicker({
