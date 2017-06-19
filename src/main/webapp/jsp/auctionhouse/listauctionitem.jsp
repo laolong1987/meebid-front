@@ -117,38 +117,74 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form" id="uploadform" name="uploadform" action="uploadauctionitem" method="post" enctype="multipart/form-data">
                     <input type="hidden"  name="auctionId"  value="${auctionId}"/>
+
                     <div class="form-group">
-                        <div class="col-sm-11 form-span">
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">UPLOAD EXL</label>
+                        <div class="col-sm-9">
                             <input type="file" name="file" id="file" accept=".xls"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <a href="" style="margin-left: 100px">DOWNLOAD TEMPLATE</a>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" onclick="submit()">UPLOAD</button>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form" id="uploadform2" name="uploadform2" action="uploadauctionitemzip" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="auctionId"  value="${auctionId}"/>
-                    <div class="form-group">
-                        <div class="col-sm-11 form-span">
-                            <input type="file" name="file2" id="file2" accept=".zip"  />
+                        <label class="col-sm-3 control-label"></label>
+                        <div class="col-sm-9">
+                            <a href="" >DOWNLOAD TEMPLATE</a>
                         </div>
                     </div>
+                    <div class="text-center">
+                        <button class="btn btn-default" onclick="submit()">UPLOAD EXL</button>
+                    </div>
                 </form>
+                    <form class="form-horizontal" role="form" id="uploadform2" name="uploadform2" action="uploadauctionitemzip" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="auctionId"  value="${auctionId}"/>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">UPLOAD EXL</label>
+                            <div class="col-sm-9">
+                                <input type="file" name="file2" id="file2" accept=".zip"  />
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-default" onclick="submit2()">UPLOAD ZIP</button>
+                        </div>
+                    </form>
+
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" onclick="submit2()">UPLOAD ZIP</button>
-            </div>
+
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
 
 <script>
     var auctionId = '${auctionId}';
+
+    $(function() {
+        $("#file").fileinput({
+            showUpload: false, //是否显示上传按钮
+            showRemove: false, //显示移除按钮
+            showPreview: false, //是否显示预览
+            showUploadedThumbs:false,
+//            showBrowse:false,
+            showCaption: true,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            enctype: 'multipart/form-data',
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
+        });
+        $("#file2").fileinput({
+            showUpload: false, //是否显示上传按钮
+            showRemove: false, //显示移除按钮
+            showPreview: false, //是否显示预览
+            showUploadedThumbs:false,
+//            showBrowse:false,
+            showCaption: true,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            enctype: 'multipart/form-data',
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
+        });
+    });
+
 
     function addnewitem() {
         $('#listform').attr("action", "showcreateauctionitem").submit();

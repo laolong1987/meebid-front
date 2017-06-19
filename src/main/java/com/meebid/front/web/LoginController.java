@@ -1,9 +1,11 @@
 package com.meebid.front.web;
 
+import com.meebid.front.bean.SellerInfo;
 import com.meebid.front.bean.UserInfo;
 import com.meebid.front.exception.ErrorException;
 import com.meebid.front.service.CommonService;
 import com.meebid.front.utils.MD5Util;
+import com.meebid.front.utils.SettingUtil;
 import com.meebid.front.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -26,6 +28,7 @@ public class LoginController {
     //登录URL
     private static String USERLOGIN = "http://192.169.202.87:8080/auction/user/login";
 
+    private  String RESTURL= SettingUtil.getSetting("RESTURL");
     @Autowired
     private RestOperations restOps;
 
@@ -66,7 +69,7 @@ public class LoginController {
         ResponseEntity<UserInfo> responseEntity = null;
         try {
             responseEntity = restOps.exchange(
-                    "http://192.169.202.87:8080/auction/user/login",
+                    RESTURL+"user/login",
                     HttpMethod.POST,
                     new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
                     UserInfo.class);
@@ -77,7 +80,20 @@ public class LoginController {
         if (responseEntity.getStatusCode() != HttpStatus.OK) {
             return "redirect:/login/";
         } else {
-            request.getSession().setAttribute("username",responseEntity.getBody());
+//            request.getSession().setAttribute("username",responseEntity.getBody());
+            ResponseEntity<SellerInfo> responseEntity2 = null;
+            //获取拍卖行信息
+            try {
+                responseEntity2 = restOps.exchange(
+                         RESTURL+"seller/findSellerInfo?uid={uid}",
+                        HttpMethod.GET,
+                        new HttpEntity<MultiValueMap<String, String>>(form, new HttpHeaders()),
+                         SellerInfo.class,responseEntity.getBody().getUid());
+            } catch (ErrorException e){
+                request.setAttribute("errorinfo",e.getErrorBean().getMessage());
+                return "/login";
+            }
+            request.getSession().setAttribute("userinfo",responseEntity2.getBody());
             return "redirect:/auctionhouse/listmessage";
         }
     }
