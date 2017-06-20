@@ -282,6 +282,7 @@ public class AuctionHouseController {
                                     @RequestParam("file") CommonsMultipartFile file, RedirectAttributes attr) {
         String auctionId=ConvertUtil.safeToString(request.getParameter("auctionId"),"");
         if (!file.isEmpty()) {
+            List<RequestItem> itemList=new ArrayList<>();
             //获取文件名
             String name = file.getOriginalFilename();
             //处理EXCEL
@@ -295,7 +296,20 @@ public class AuctionHouseController {
                 @SuppressWarnings("unchecked")
                 Map<String, String> listStr = (Map<String, String>) mapList.get(key);
                 int source = 0;
+                RequestItem requestItem=new RequestItem();
+                requestItem.setLotNumber(ConvertUtil.safeToInteger(listStr.get("lot"),0));
+                requestItem.setName(ConvertUtil.safeToString(listStr.get("name"),""));
+                requestItem.setDescription(ConvertUtil.safeToString(listStr.get("description"),""));
+                requestItem.setStartingPrice(ConvertUtil.safeToInteger(listStr.get("startingPrice"),0));
+                requestItem.setEstimateMin(ConvertUtil.safeToInteger(listStr.get("estimateMin"),0));
+                requestItem.setEstimateMax(ConvertUtil.safeToInteger(listStr.get("estimateMax"),0));
+                requestItem.setReservePrice(ConvertUtil.safeToInteger(listStr.get("reservePrice"),0));
+                requestItem.setCategory(ConvertUtil.safeToString(listStr.get("category"),""));
+                requestItem.setAuctionId(auctionId);
+                itemList.add(requestItem);
             }
+            ResponseItem responseItem= restOps.postForObject(RESTURL+"auction-items/batchCreate",itemList,ResponseItem.class);
+            System.out.println(responseItem.getSuccess());
         }
 
 

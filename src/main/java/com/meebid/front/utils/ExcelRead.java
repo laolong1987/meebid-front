@@ -146,65 +146,23 @@ public class ExcelRead {
                     Cell cell = row.getCell(c);
                     if (null != cell) {
                         cell.setCellType(Cell.CELL_TYPE_STRING);
-                        if (c == 0) {//获得第一列<来源>
+                        if (c == 0) {//获得第一列 拍品编号（*）
                             hashmap.put("lot", getValue(cell));
-                        } else if (c == 1) {//
-                            hashmap.put("customername", getValue(cell));
-                        } else if (c == 2) {//
-                            hashmap.put("customersex", getValue(cell));
-                        } else if (c == 3) {//
-                            hashmap.put("customerphone", getValue(cell));
-                        } else if (c == 4) {//
-                            hashmap.put("complainttime", getValue(cell));
-                        } else if (c == 5) {//
-                            hashmap.put("complaintdetail", getValue(cell));
-                        } else if (c == 6) {//
-                            hashmap.put("complainttype", getValue(cell));
-                        } else if (c == 7) {//
-                            hashmap.put("shopprovince", getValue(cell));
-                        } else if (c == 8) {//
-                            hashmap.put("shopcity", getValue(cell));
-                        } else if (c == 9) {//
-                            hashmap.put("shopaddress", getValue(cell));
-                        } else if (c == 10) {//
-                            hashmap.put("shopname", getValue(cell));
-                        }/*else if(c==11){//
-                           hashmap.put("dandang", getValue(cell));
-	                   }else if(c==13){//
-	                	   hashmap.put("lesson", getValue(cell));
-	                   }else if(c==14){//
-	                	   hashmap.put("handledepartment", getValue(cell));
-	                   }else if(c==15){//
-	                	   hashmap.put("handleid", getValue(cell));
-	                   }else if(c==16){//
-	                	   hashmap.put("status", getValue(cell));
-	                   }else if(c==17){//
-	                	   hashmap.put("createid", getValue(cell));
-	                   }else if(c==18){//
-	                	   hashmap.put("createtime", getValue(cell));
-	                   }else if(c==19){//
-	                	   hashmap.put("updatetime", getValue(cell));
-	                   }else if(c==20){//
-	                	   hashmap.put("objname", getValue(cell));
-	                   }else if(c==21){//
-	                	   hashmap.put("objid", getValue(cell));
-	                   }else if(c==22){//
-	                	   hashmap.put("objjob", getValue(cell));
-	                   }else if(c==23){//
-	                	   hashmap.put("handletype", getValue(cell));
-	                   }else if(c==24){//
-	                	   hashmap.put("handlecontent", getValue(cell));
-	                   }else if(c==25){//
-	                	   hashmap.put("improvecontent", getValue(cell));
-	                   }else if(c==26){//
-	                	   hashmap.put("discardcontent", getValue(cell));
-	                   }else if(c==27){//
-	                	   hashmap.put("handlevalid", getValue(cell));
-	                   }else if(c==28){//
-	                	   hashmap.put("inputname", getValue(cell));
-	                   }else if(c==29){//
-	                	   hashmap.put("handletime", getValue(cell));
-	                   }*/
+                        } else if (c == 1) {//拍品名称（*）
+                            hashmap.put("name", getValue(cell));
+                        } else if (c == 2) {//拍品描述（*）
+                            hashmap.put("description", getValue(cell));
+                        } else if (c == 3) {//起拍价格（*）
+                            hashmap.put("startingPrice", getValue(cell));
+                        } else if (c == 4) {//估价下限
+                            hashmap.put("estimateMin", getValue(cell));
+                        } else if (c == 5) {//估价上限
+                            hashmap.put("estimateMax", getValue(cell));
+                        } else if (c == 6) {//保留价
+                            hashmap.put("reservePrice", getValue(cell));
+                        } else if (c == 7) {//类别
+                            hashmap.put("category", getValue(cell));
+                        }
                     }
                 }
                 mapList.put(i + "-" + r, hashmap);
