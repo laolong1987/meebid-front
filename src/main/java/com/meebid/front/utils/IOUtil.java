@@ -3,8 +3,7 @@ package com.meebid.front.utils;
 /**
  * Created by gaoyang on 17/6/17.
  */
-import java.io.Closeable;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * IO流工具类
@@ -42,6 +41,30 @@ public class IOUtil {
         } catch (IOException e) {
             // do nothing
         }
+    }
+    /**
+     * 获得指定文件的byte数组
+     */
+    public static byte[] getBytes(String filePath){
+        byte[] buffer = null;
+        try {
+            File file = new File(filePath);
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);
+            byte[] b = new byte[1000];
+            int n;
+            while ((n = fis.read(b)) != -1) {
+                bos.write(b, 0, n);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer;
     }
 
 }
