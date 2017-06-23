@@ -26,6 +26,8 @@ public class SettingUtil {
 	
 	public static void main(String[] args) {
 
-		System.out.printf(String.valueOf(23/10));
+		String aa="1-3.jps";
+
+		System.out.println(aa.substring(0,aa.indexOf(".")));
 	}
 }

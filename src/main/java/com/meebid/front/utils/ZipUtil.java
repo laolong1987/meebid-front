@@ -3,16 +3,13 @@ package com.meebid.front.utils;
 /**
  * Created by gaoyang on 17/6/17.
  */
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
@@ -111,6 +108,9 @@ public final class ZipUtil {
                 ZipEntry entry = null;
                 while ((entry = zis.getNextEntry()) != null
                         && !entry.isDirectory()) {
+//                    if ("__MACOSX/".equals(entry.getName())){
+//                        continue;
+//                    }
                     File target = new File(source.getParent(), entry.getName());
                     if (!target.getParentFile().exists()) {
                         // 创建文件父目录
@@ -131,6 +131,50 @@ public final class ZipUtil {
             } finally {
                 IOUtil.closeQuietly(zis, bos);
             }
+        }
+    }
+
+
+    /**
+     * 解压zip
+     */
+    public static void unzipMAC(String zipPath) {
+        File source = new File(zipPath);
+        FileOutputStream fos= null;
+        BufferedOutputStream bos=null;
+        try {
+        ZipFile zipFile = new ZipFile(zipPath);
+        Enumeration emu = zipFile.entries();
+        int i = 0;
+        while (emu.hasMoreElements()) {
+            ZipEntry entry = (ZipEntry) emu.nextElement();
+            String fileName=entry.getName().toLowerCase();
+            if(!fileName.startsWith("__macosx/"))
+            {
+                //如果文件名没有以__macosx/开头，且以psd结尾，就是psd文件，解压,在mac下压缩的文件，会自动加上__macosx目录，但其实是没用的
+                BufferedInputStream bis = new BufferedInputStream(
+                        zipFile.getInputStream(entry));
+                File file =  new File(source.getParent(), entry.getName());
+                //一次读40K
+                int BUFFER=40960;
+                 fos = new FileOutputStream(file);
+                 bos = new BufferedOutputStream(fos, BUFFER);
+
+                int count;
+                byte data[] = new byte[BUFFER];
+                while ((count = bis.read(data, 0, BUFFER)) != -1) {
+                    bos.write(data, 0, count);
+                }
+                bos.flush();
+                bos.close();
+                bis.close();
+            }
+        }
+        zipFile.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            IOUtil.closeQuietly(fos, bos);
         }
     }
 
@@ -177,27 +221,12 @@ public final class ZipUtil {
     }
 
     public static void main(String[] args) {
-        String targetPath = "/Users/gaoyang/Documents/workspace/meebid-front/src/main/webapp/file/";
-//        String targetPath = "/Users/gaoyang/Documents/workspace/meebid-front/src/main/webapp/file/aaa.doc";
-        //
-//        File file = ZipUtil.zip(targetPath);
-        File file=new File(targetPath);
-
-//        System.out.println(file);
-//        ZipUtil.unzip(targetPath);
-
-        String [] fileName = getFileName(targetPath);
-        for(String name:fileName)
-        {
-            System.out.println(name);
+        String targetPath = "/Users/gaoyang/Documents/workspace/meebid-front/out/artifacts/app/file/c0a80068-5c97-1892-815c-974492570002/13bb854a-75ba-414b-90d4-dd14c0a654ff归档.zip";
+        String targetPath2 = "/Users/gaoyang/Documents/workspace/meebid-front/out/artifacts/app/file/c0a80068-5c97-1892-815c-974492570002";
+        try {
+            ZipUtil.unzipMAC(targetPath);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        System.out.println("--------------------------------");
-        ArrayList<String> listFileName = new ArrayList<String>();
-        getAllFileName(targetPath,listFileName);
-        for(String name:listFileName)
-        {
-            System.out.println(name);
-        }
-
     }
 }

@@ -345,18 +345,18 @@ public class AuctionHouseController {
         if (!tmpSaveFile.exists())
             tmpSaveFile.mkdirs();
         String fileuuid = UUID.randomUUID().toString();
-        String fileName = tmpRealPathDir + File.separator + fileuuid;
+        String fileName = tmpRealPathDir + File.separator + fileuuid+file.getOriginalFilename();
 
         File transferred = new File(fileName);
         try {
             file.transferTo(transferred);
             //解压缩文件
-            ZipUtil.unzip(fileName);
+            ZipUtil.unzipMAC(fileName);
             String[] fname = ZipUtil.getFileName(tmpRealPathDir);
             Map<Integer, Set<Integer>> imgmap = new HashMap(); //用来存整理后的图片
             for (String f : fname) {
-                if (-1 != f.indexOf("-")) {
-                    String[] f1 = f.split("-");
+                if (-1 != f.indexOf("-") && -1 != f.indexOf(".") ) {
+                    String[] f1 = f.substring(0,f.indexOf(".")).split("-");
                     if (2 == f1.length) {
                         if (ConvertUtil.isNumeric(f1[0]) && ConvertUtil.isNumeric(f1[1])) {
                             Integer lotnum = ConvertUtil.safeToInteger(f1[0], 0);
@@ -371,14 +371,31 @@ public class AuctionHouseController {
                     }
                 }
             }
+
+            //获取当前所有拍品
+            ResponseEntity<SearchTemplate<Item>> res = restOps.exchange(
+                    RESTURL + "auction-items/items-list?auctionId={auctionId}&pageSize={pageSize}&page={page}",
+                    HttpMethod.GET, null,
+                    new ParameterizedTypeReference<SearchTemplate<Item>>() {
+                    }, auctionId, Integer.MAX_VALUE, 1);
+            Set<Integer> set=new HashSet();
+
+            for (Item item:  res.getBody().getDateList()) {
+                set.add(item.getLotNum());
+            }
+
             List<RequestItemImg> itemList = new ArrayList<>();
             for (Map.Entry<Integer, Set<Integer>> entry : imgmap.entrySet()) {
+                //判断 lotnum 是否存在
+                if(false==set.contains(entry.getKey())){
+                    continue;
+                }
                 RequestItemImg itemimg = new RequestItemImg();
                 itemimg.setAuctionId(auctionId);
                 itemimg.setLotNumber(ConvertUtil.safeToString(entry.getKey(), ""));
                 List<String> imglist = new ArrayList<>();
                 for (Integer i:entry.getValue()) {
-                    String filepath=tmpRealPathDir+ File.separator+entry.getKey()+"-"+i;
+                    String filepath=tmpRealPathDir+ File.separator+entry.getKey()+"-"+i+".jpg";
                     try {
                         String imgurl = uploadService.qiniuyunupload(IOUtil.getBytes(filepath));
                         imglist.add(SettingUtil.getSetting("IMGURL") + imgurl);
