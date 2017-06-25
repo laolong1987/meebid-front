@@ -71,7 +71,6 @@ public class ExcelRead {
     /**
      * 描述 :读EXCEL文件
      *
-     * @param fielName
      * @return
      */
     public Workbook getExcelInfo(String fileName, MultipartFile Mfile) {
@@ -124,7 +123,7 @@ public class ExcelRead {
     public Map<String, Object> readComplainValue(Workbook wb) {
         int sheetCount = wb.getNumberOfSheets();
         Map<String, Object> mapList = new HashMap<String, Object>();
-        for (int i = 0; i < sheetCount; i++) {
+        for (int i = 0; i < 1; i++) {
             //得到第i个shell
             Sheet sheet = wb.getSheetAt(i);
             String sheetName = sheet.getSheetName();

@@ -52,7 +52,7 @@
         <c:forEach items="${list}" var="a">
             <div class="row auction-box">
                 <div class="col-xs-2">
-                    <img src="${a.thumbImg}">
+                    <img src="${empty a.thumbImg ? '/static/images/noimg.png' :a.thumbImg}">
                 </div>
                 <div class="col-xs-8">
                     <ul class="list-unstyled">
