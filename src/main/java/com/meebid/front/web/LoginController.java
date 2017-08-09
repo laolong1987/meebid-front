@@ -25,9 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/login")
 public class LoginController {
 
-    //登录URL
-    private static String USERLOGIN = "http://192.169.202.87:8080/auction/user/login";
-
     private  String RESTURL= SettingUtil.getSetting("RESTURL");
     @Autowired
     private RestOperations restOps;

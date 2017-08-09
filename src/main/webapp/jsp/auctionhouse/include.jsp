@@ -10,13 +10,14 @@
 <link type="text/css" rel="stylesheet" href="${ctx}/static/css/fileinput.css" />
 <link type="text/css" rel="stylesheet" href="${ctx}/static/css/bootstrap-switch.css" />
 <link type="text/css" rel="stylesheet" href="${ctx}/static/css/bootstrap-datetimepicker.css" />
+<link type="text/css" rel="stylesheet" href="${ctx}/static/css/cmxform.css" />
 
 
 <!-- jquery -->
 <script type="text/javascript" src='${ctx}/static/js/jquery.min.js'></script>
+<script type="text/javascript" src='${ctx}/static/js/jquery.validate.min.js'></script>
 <script type="text/javascript" src='${ctx}/static/js/bootstrap.min.js'></script>
 <script type="text/javascript" src="${ctx}/static/js/fileinput.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/bootstrap-switch.js"></script>
 <script type="text/javascript" src='${ctx}/static/js/base.js'></script>
 <script type="text/javascript" src='${ctx}/static/js/bootstrap-datetimepicker.js'></script>
-

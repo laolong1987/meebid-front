@@ -32,7 +32,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">NAME</label>
             <div class="col-sm-6">
-                <input type="text" name="name" id="name" class="form-control" placeholder="">
+                <input type="text" name="name" id="name" class="form-control required" placeholder="" required>
             </div>
             <div class="col-sm-4 checkbox">
                 <input type="checkbox" id="" name="" value="1">EXHIBITION ONLY
@@ -41,17 +41,17 @@
         <div class="form-group">
             <label  class="col-sm-2 control-label">LOCATION</label>
             <div class="col-sm-3">
-                <select name="countryId" class="countries order-alpha presel-byip form-control" id="countryId">
+                <select name="countryId" class="countries order-alpha presel-byip form-control" id="countryId" required>
                     <option value="">Select Country</option>
                 </select>
             </div>
             <div class="col-sm-3">
-                <select name="stateId" class="states order-alpha form-control" id="stateId">
+                <select name="stateId" class="states order-alpha form-control" id="stateId" required>
                     <option value="">Select State</option>
                 </select>
             </div>
             <div class="col-sm-3">
-                <select name="cityId" class="cities order-alpha form-control" id="cityId" >
+                <select name="cityId" class="cities order-alpha form-control" id="cityId" required>
                     <option value="">Select City</option>
                 </select>
             </div>
@@ -59,7 +59,7 @@
         <div class="form-group">
             <label  class="col-sm-2 control-label">TIMEZONE</label>
             <div class="col-sm-6">
-                <select class="form-control" name="timezone" id="timezone">
+                <select class="form-control" name="timezone" id="timezone" required>
                     <option value="0000" >Greenwich Mean Time	GMT</option>
                     <option value="+0100" >European Central Time	GMT+1:00</option>
                     <option value="+0200" >Eastern European Time	GMT+2:00</option>
@@ -98,17 +98,17 @@
         <div class="form-group">
             <label  class="col-sm-2 control-label">START TIME</label>
             <div class="col-sm-3">
-                <input  type="text" readonly class="form-control form_datetime" name="date1" id="date1" value="">
+                <input  type="text" readonly class="form-control form_datetime" name="date1" id="date1" value="" required>
             </div>
             <div class="col-sm-3">
-                <input  type="text" readonly class="form-control form_datetime2" name="date2" id="date2" value="">
+                <input  type="text" readonly class="form-control form_datetime2" name="date2" id="date2" value="" required>
             </div>
         </div>
 
         <div class="form-group">
             <label  class="col-sm-2 control-label">DESCRIPTION</label>
             <div class="col-sm-9">
-                <textarea class="form-control" rows="3" name="desc" id="desc"></textarea>
+                <textarea class="form-control" rows="3" name="desc" id="desc" required></textarea>
             </div>
         </div>
     </form>
@@ -119,6 +119,10 @@
 </div>
 <script type="text/javascript" src="${ctx}/static/js/countrystatecity.js"></script>
 <script>
+
+    $().ready(function() {
+        $("#addform").validate();
+    });
 
     $(".form_datetime").datetimepicker({
         format: "dd MM yyyy",

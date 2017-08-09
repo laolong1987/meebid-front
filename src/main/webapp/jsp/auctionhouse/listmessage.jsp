@@ -109,7 +109,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">SUBJECT</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="" id="subject" name="subject">
+                            <input type="text" class="form-control" placeholder="" id="subject" name="subject" required>
                         </div>
                     </div>
 
@@ -117,7 +117,7 @@
                     <div class="form-group">
                         <label  class="col-sm-2 control-label">CONTENT</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control" name="content" id="content" rows="3"></textarea>
+                            <textarea class="form-control" name="content" id="content" rows="3" required></textarea>
                         </div>
                     </div>
                 </form>
@@ -168,6 +168,13 @@
 </div>
 
 <script>
+
+
+    $().ready(function() {
+        $("#addform").validate();
+    });
+
+
     function showaddwindows(){
         $('#add').modal('show');
     }

@@ -32,16 +32,16 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">LOT</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" placeholder="" id="lotnumber" name="lotnumber" value="${item.lotNumber}">
+                <input type="text" class="form-control" placeholder="" id="lotnumber" name="lotnumber" value="${item.lotNumber}" required>
             </div>
             <div class="col-sm-6">
-                <input type="text" class="form-control" placeholder="NAME" id="name" name="name" value="${item.name}">
+                <input type="text" class="form-control" placeholder="NAME" id="name" name="name" value="${item.name}" required>
             </div>
         </div>
         <div class="form-group">
             <label  class="col-sm-2 control-label">CATEGORY</label>
             <div class="col-sm-3">
-                <select class="form-control" name="category" id="category">
+                <select class="form-control" name="category" id="category" required>
                     <option value="1">Antique & Collectibles</option>
                     <option value="2">Fine Arts</option>
                     <option value="3">Watches</option>
@@ -62,12 +62,12 @@
             <div class="col-sm-3 ">
                 <div class="input-group">
                     <div class="input-group-addon">USD</div>
-                    <input type="text" class="form-control" value="${item.estimateMin}" placeholder="LOWEST EST" name="estimateMin" id="estimateMin">
+                    <input type="text" class="form-control" value="${item.estimateMin}" placeholder="LOWEST EST" name="estimateMin" id="estimateMin" required>
                 </div></div>
             <div class="col-sm-3 ">
                 <div class="input-group">
                     <div class="input-group-addon">USD</div>
-                    <input type="text" class="form-control" value="${item.estimateMax}"  PLACEHOLDER="HIGHEST ESG" name="estimateMax" id="estimateMax" >
+                    <input type="text" class="form-control" value="${item.estimateMax}"  PLACEHOLDER="HIGHEST ESG" name="estimateMax" id="estimateMax" required>
                 </div></div>
         </div>
 
@@ -76,7 +76,7 @@
             <div class="col-sm-3 ">
                 <div class="input-group">
                     <div class="input-group-addon">USD</div>
-                    <input type="text" class="form-control" value="${item.reservePrice}" name="reservePrice" id="reservePrice" >
+                    <input type="text" class="form-control" value="${item.reservePrice}" name="reservePrice" id="reservePrice" required>
                 </div></div>
         </div>
         <div class="form-group">
@@ -84,7 +84,7 @@
             <div class="col-sm-3 ">
                 <div class="input-group">
                     <div class="input-group-addon">USD</div>
-                    <input type="text" class="form-control" value="${item.startingPrice}" name="startingPrice" id="startingPrice"  >
+                    <input type="text" class="form-control" value="${item.startingPrice}" name="startingPrice" id="startingPrice" required>
                 </div></div>
         </div>
 
@@ -98,7 +98,7 @@
         <div class="form-group">
             <label  class="col-sm-2 control-label">DESCRIPTION</label>
             <div class="col-sm-9">
-                <textarea class="form-control" rows="3" id="description" name="description">${item.description}</textarea>
+                <textarea class="form-control" rows="3" id="description" name="description" required>${item.description}</textarea>
             </div>
         </div>
     </form>
@@ -109,6 +109,11 @@
 
 </div>
 <script>
+
+    $().ready(function() {
+        $("#addform").validate();
+    });
+
 
     $(function(){
         $("#uploadfile").fileinput({
